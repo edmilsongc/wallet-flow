@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalletFlow | Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/dashboard.css') }}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
+        rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
+    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-icon">💹</div>
+            <span class="logo-name">WalletFlow</span>
+        </div>
+
+        <div class="sidebar-user">
+            <div class="avatar">US</div>
+            <div class="user-info">
+                <div class="name">Usuário</div>
+                <div class="role">Conta pessoal</div>
+            </div>
+            <i class="fa-solid fa-chevron-down"></i>
+        </div>
+
+        <nav class="sidebar-nav">
+            <div class="nav-section-label">Menu</div>
+
+            <a class="nav-item active" href="/dashboard">
+                <i class="fa-solid fa-gauge-high"></i>
+                Início
+            </a>
+
+            <a class="nav-item" href="/accounts-receivable">
+                <i class="fa-solid fa-file-invoice-dollar"></i>
+                Contas a Receber
+            </a>
+
+            <a class="nav-item" href="/accounts-payable">
+                <i class="fa-solid fa-credit-card"></i>
+                Contas a Pagar
+            </a>
+
+            <a class="nav-item" href="/investment-plans">
+                <i class="fa-solid fa-chart-line"></i>
+                Plano de Aporte
+            </a>
+
+            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
+
+            <a class="nav-item" href="/statements">
+                <i class="fa-solid fa-receipt"></i>
+                Extrato
+            </a>
+
+            <a class="nav-item" href="/transactions">
+                <i class="fa-solid fa-clock-rotate-left"></i>
+                Histórico
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a class="nav-item" href="/support">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Ajuda e Suporte
+            </a>
+            <a class="nav-item" href="/settings">
+                <i class="fa-solid fa-gear"></i>
+                Configurações
+            </a>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="greeting">Olá, <span id="nameUser"></span> 👋</div>
+                <div class="date">Sexta-feira, 1 de maio de 2026</div>
+            </div>
+            <div class="topbar-right">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input placeholder="Pesquisar..." type="text">
+                </div>
+                <div class="icon-btn">
+                    <i class="fa-solid fa-bell"></i>
+                    <!-- <div class="notif-dot"></div> -->
+                </div>
+                <div class="icon-btn">
+                    <i class="fa-solid fa-gear"></i>
+                </div>
+            </div>
+        </header>
+
+        <!-- PAGE CONTENT -->
+        <div class="page">
+
+            <!-- METRIC CARDS -->
+            <div class="metrics-row">
+                <div class="metric-card green">
+                    <div class="metric-icon green">💰</div>
+                    <div class="metric-label">Saldo Total</div>
+                    <div class="metric-value">R$ 48.320</div>
+                    <span class="metric-badge up">↑ 12,4%</span>
+                </div>
+                <div class="metric-card blue">
+                    <div class="metric-icon blue">📥</div>
+                    <div class="metric-label">A Receber (mai)</div>
+                    <div class="metric-value">R$ 12.500</div>
+                    <span class="metric-badge up">↑ 8,1%</span>
+                </div>
+                <div class="metric-card red">
+                    <div class="metric-icon red">📤</div>
+                    <div class="metric-label">A Pagar (mai)</div>
+                    <div class="metric-value">R$ 7.840</div>
+                    <span class="metric-badge down">↑ 3,2%</span>
+                </div>
+                <div class="metric-card amber">
+                    <div class="metric-icon amber">📈</div>
+                    <div class="metric-label">Rentabilidade</div>
+                    <div class="metric-value">+R$ 4.660</div>
+                    <span class="metric-badge up">↑ 5,7%</span>
+                </div>
+            </div>
+
+            <!-- CHARTS ROW -->
+            <div class="charts-row">
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Fluxo de Caixa</div>
+                            <div class="card-sub">Entradas vs Saídas — 2024</div>
+                        </div>
+                        <div class="period-tabs">
+                            <div class="period-tab">3M</div>
+                            <div class="period-tab active">6M</div>
+                            <div class="period-tab">12M</div>
+                        </div>
+                    </div>
+                    <div class="chart-wrap">
+                        <canvas id="lineChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Distribuição</div>
+                            <div class="card-sub">Por categoria</div>
+                        </div>
+                    </div>
+                    <div class="donut-wrap">
+                        <canvas id="donutChart"></canvas>
+                    </div>
+                    <div class="donut-legend">
+                        <div class="legend-item">
+                            <div class="legend-dot-label">
+                                <div class="legend-dot" style="background:#3b82f6"></div>
+                                <span style="font-size:13px">Investimentos</span>
+                            </div>
+                            <span class="legend-pct" style="color:#3b82f6">42%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot-label">
+                                <div class="legend-dot" style="background:#10b981"></div>
+                                <span style="font-size:13px">Receitas</span>
+                            </div>
+                            <span class="legend-pct" style="color:#10b981">31%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot-label">
+                                <div class="legend-dot" style="background:#ef4444"></div>
+                                <span style="font-size:13px">Despesas</span>
+                            </div>
+                            <span class="legend-pct" style="color:#ef4444">19%</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-dot-label">
+                                <div class="legend-dot" style="background:#f59e0b"></div>
+                                <span style="font-size:13px">Reserva</span>
+                            </div>
+                            <span class="legend-pct" style="color:#f59e0b">8%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BOTTOM ROW -->
+            <div class="bottom-row">
+                <!-- TRANSACTIONS -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Últimas Transações</div>
+                            <div class="card-sub">Movimentações recentes</div>
+                        </div>
+                        <button
+                            style="font-size:12px;padding:5px 14px;background:#eff6ff;border:1px solid #bfdbfe;color:#2563eb;border-radius:8px;cursor:pointer;font-family:inherit;font-weight:600">Ver
+                            todas</button>
+                    </div>
+                    <table class="transactions">
+                        <thead>
+                            <tr>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Status</th>
+                                <th>Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center">
+                                        <div class="tx-icon" style="background:#dcfce7;color:#10b981">🏢</div>
+                                        <div>
+                                            <div class="tx-name">Salário Abril</div>
+                                            <div class="tx-date">28 abr 2024</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px;color:var(--muted)">Receita</span></td>
+                                <td><span class="status-badge done">Pago</span></td>
+                                <td><span class="tx-amount inc">+ R$ 8.500</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center">
+                                        <div class="tx-icon" style="background:#fee2e2;color:#ef4444">🏠</div>
+                                        <div>
+                                            <div class="tx-name">Aluguel</div>
+                                            <div class="tx-date">05 mai 2024</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px;color:var(--muted)">Moradia</span></td>
+                                <td><span class="status-badge pend">Pendente</span></td>
+                                <td><span class="tx-amount exp">− R$ 2.100</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center">
+                                        <div class="tx-icon" style="background:#dbeafe;color:#3b82f6">📊</div>
+                                        <div>
+                                            <div class="tx-name">Aporte Tesouro</div>
+                                            <div class="tx-date">02 mai 2024</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px;color:var(--muted)">Investimento</span></td>
+                                <td><span class="status-badge done">Pago</span></td>
+                                <td><span class="tx-amount exp">− R$ 1.500</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center">
+                                        <div class="tx-icon" style="background:#f3e8ff;color:#a855f7">💼</div>
+                                        <div>
+                                            <div class="tx-name">Freelance Design</div>
+                                            <div class="tx-date">30 abr 2024</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px;color:var(--muted)">Renda Extra</span></td>
+                                <td><span class="status-badge done">Pago</span></td>
+                                <td><span class="tx-amount inc">+ R$ 1.200</span></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div style="display:flex;align-items:center">
+                                        <div class="tx-icon" style="background:#fef3c7;color:#f59e0b">🛒</div>
+                                        <div>
+                                            <div class="tx-name">Supermercado</div>
+                                            <div class="tx-date">29 abr 2024</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td><span style="font-size:12px;color:var(--muted)">Alimentação</span></td>
+                                <td><span class="status-badge done">Pago</span></td>
+                                <td><span class="tx-amount exp">− R$ 680</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- AGENDA -->
+                <div class="card">
+                    <div class="card-header">
+                        <div>
+                            <div class="card-title">Próximos Vencimentos</div>
+                            <div class="card-sub">Maio 2024</div>
+                        </div>
+                    </div>
+                    <div class="agenda-list">
+                        <div class="agenda-item">
+                            <div class="agenda-date">
+                                <div class="day">05</div>
+                                <div class="month">mai</div>
+                            </div>
+                            <div class="agenda-desc">
+                                <div class="title">Aluguel</div>
+                                <div class="sub">Moradia · Recorrente</div>
+                            </div>
+                            <div class="agenda-amount pay">−R$ 2.100</div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-date">
+                                <div class="day">10</div>
+                                <div class="month">mai</div>
+                            </div>
+                            <div class="agenda-desc">
+                                <div class="title">Internet + Energia</div>
+                                <div class="sub">Utilidades · Recorrente</div>
+                            </div>
+                            <div class="agenda-amount pay">−R$ 340</div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-date">
+                                <div class="day">15</div>
+                                <div class="month">mai</div>
+                            </div>
+                            <div class="agenda-desc">
+                                <div class="title">Dividendo FII</div>
+                                <div class="sub">Investimento · Projetado</div>
+                            </div>
+                            <div class="agenda-amount rec">+R$ 620</div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-date">
+                                <div class="day">20</div>
+                                <div class="month">mai</div>
+                            </div>
+                            <div class="agenda-desc">
+                                <div class="title">Cartão de Crédito</div>
+                                <div class="sub">Fatura · Abril/2024</div>
+                            </div>
+                            <div class="agenda-amount pay">−R$ 1.870</div>
+                        </div>
+                        <div class="agenda-item">
+                            <div class="agenda-date">
+                                <div class="day">28</div>
+                                <div class="month">mai</div>
+                            </div>
+                            <div class="agenda-desc">
+                                <div class="title">Salário Maio</div>
+                                <div class="sub">Receita · Previsto</div>
+                            </div>
+                            <div class="agenda-amount rec">+R$ 8.500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /page -->
+    </main>
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}"></script>
+</body>
+
+</html>

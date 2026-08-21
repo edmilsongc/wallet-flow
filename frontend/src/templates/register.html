@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalletFlow | Cadastro</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+
+<body>
+    <div class="auth-container">
+        <div class="brand">
+            <h1 class="brand-title">WalletFlow</h1>
+            <p class="brand-subtitle">Crie sua conta</p>
+        </div>
+
+        <form id="signupFormElement" novalidate>
+            <div class="success-message" id="signupSuccess">
+                ✓ Conta criada com sucesso!
+            </div>
+
+            <div class="form-group">
+                <label for="signupName">Nome Completo</label>
+                <input type="text" class="form-control" id="signupName" name="name" placeholder="Seu nome completo"
+                    required>
+                <div class="error-message" id="signupNameError">Nome obrigatório</div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupEmail">Email</label>
+                <input type="email" class="form-control" id="signupEmail" name="email" placeholder="seu@email.com"
+                    required>
+                <div class="error-message" id="signupEmailError">Email inválido</div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupPassword">Senha</label>
+                <input type="password" class="form-control" id="signupPassword" name="password" placeholder="••••••••"
+                    required>
+                <div class="error-message" id="signupPasswordError">
+                    Mínimo 6 caracteres
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="signupConfirmPassword">Confirmar Senha</label>
+                <input type="password" class="form-control" id="signupConfirmPassword" name="confirm_password"
+                    placeholder="••••••••" required>
+                <div class="error-message" id="signupConfirmPasswordError">
+                    Senhas não conferem
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Criar Conta</button>
+        </form>
+
+        <div class="form-link">
+            Já tem conta? <a href="/login">Fazer login</a>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/register.js') }}"></script>
+</body>
+
+</html>

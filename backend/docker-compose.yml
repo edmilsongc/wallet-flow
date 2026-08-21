@@ -1,0 +1,18 @@
+services:
+  postgres:
+    container_name: wallet-flow-postgres
+    image: postgres:18
+
+    ports:
+      - "127.0.0.1:3000:5432"
+
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+
+    volumes:
+      - postgres_data:/var/lib/postgresql
+
+volumes:
+  postgres_data:
