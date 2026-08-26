@@ -1,380 +1,97 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalletFlow | Contas a Pagar</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/accounts-payable.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Playfair+Display:wght@600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💹</div>
-            <span class="logo-name">WalletFlow</span>
+{% extends "base.html" %}
+{% set page_id = "accounts-payable" %}
+{% block title %}Contas a Pagar{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/accounts-payable.css') }}">{% endblock %}
+{% block page_title %}Contas a Pagar{% endblock %}
+{% block page_action %}<button type="button" class="button primary" data-modal-open="payable-modal"><i
+        class="fa-solid fa-plus"></i>Nova conta</button>{% endblock %}
+{% block content %}
+<section class="metrics-grid" aria-label="Resumo de contas a pagar">
+    <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-file-invoice"></i></span><span
+            class="metric-label">Total a pagar</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card green"><span class="metric-icon"><i class="fa-solid fa-circle-check"></i></span><span
+            class="metric-label">Pago no mês</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card amber"><span class="metric-icon"><i class="fa-solid fa-clock"></i></span><span
+            class="metric-label">Pendente</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card red"><span class="metric-icon"><i
+                class="fa-solid fa-triangle-exclamation"></i></span><span class="metric-label">Vencido</span><strong
+            class="metric-value">—</strong><span class="metric-hint">Aguardando dados</span></article>
+</section>
+<section class="grid-2-1">
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Pagamentos por período</h2>
+                <p class="card-sub">Área reservada para o gráfico da API.</p>
+            </div>
+            <div class="segment-control" data-tabs><button type="button" data-tab="3">3M</button><button type="button"
+                    data-tab="6" class="active">6M</button><button type="button" data-tab="12">12M</button></div>
         </div>
-
-        <div class="sidebar-user">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="name">Usuário</div>
-                <div class="role">Conta pessoal</div>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
+        <div class="chart-placeholder"><i class="fa-solid fa-chart-column"></i>
+            <p>Sem dados para exibir</p>
         </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu</div>
-
-            <a class="nav-item" href="/dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                Início
-            </a>
-
-            <a class="nav-item" href="/accounts-receivable">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                Contas a Receber
-            </a>
-
-            <a class="nav-item active" href="/accounts-payable">
-                <i class="fa-solid fa-credit-card"></i>
-                Contas a Pagar
-            </a>
-
-            <a class="nav-item" href="/investment-plans">
-                <i class="fa-solid fa-chart-line"></i>
-                Plano de Aporte
-            </a>
-
-            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
-
-            <a class="nav-item" href="/statements">
-                <i class="fa-solid fa-receipt"></i>
-                Extrato
-            </a>
-
-            <a class="nav-item" href="/transactions">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Histórico
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="/support">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Ajuda e Suporte
-            </a>
-            <a class="nav-item" href="/settings">
-                <i class="fa-solid fa-gear"></i>
-                Configurações
-            </a>
-        </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="greeting" id="greetingText">Olá, Usuário 👋</div>
-                <div class="date" id="dateText"></div>
-            </div>
-            <div class="topbar-right">
-                <div class="search-box">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24"
-                        style="color:var(--muted);flex-shrink:0">
-                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
-                        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                    <input placeholder="Pesquisar..." type="text">
-                </div>
-                <div class="icon-btn">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                        <path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9M13.73 21a2 2 0 01-3.46 0"
-                            stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                    <div class="notif-dot"></div>
-                </div>
-                <div class="icon-btn">
-                    <svg width="16" height="16" fill="none" viewBox="0 0 24 24">
-                        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.8" />
-                        <path
-                            d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"
-                            stroke="currentColor" stroke-width="1.8" />
-                    </svg>
-                </div>
-            </div>
-        </header>
-
-        <div class="page">
-            <!-- PAGE HEADER -->
-            <div class="page-header">
-                <div>
-                    <div class="page-title">Contas a Pagar</div>
-                    <div class="page-subtitle">Gerencie e acompanhe todos os seus pagamentos</div>
-                </div>
-                <button class="btn-primary" onclick="openModal()">
-                    <svg fill="none" viewBox="0 0 24 24">
-                        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
-                    </svg>
-                    Nova Conta
-                </button>
-            </div>
-
-            <!-- SUMMARY CARDS -->
-            <div class="summary-grid" id="summaryGrid"></div>
-
-            <!-- PROGRESS BAR -->
-            <div class="progress-section">
-                <div class="progress-header">
-                    <span class="progress-title" id="progressTitle">Progresso do mês</span>
-                    <span class="progress-pct" id="progressPct">0% pago</span>
-                </div>
-                <div class="progress-bar">
-                    <div class="progress-fill" id="progressFill" style="width:0%"></div>
-                </div>
-                <div class="progress-legend">
-                    <span class="prog-leg"><span class="prog-dot" style="background:var(--green)"></span>Pagas</span>
-                    <span class="prog-leg"><span class="prog-dot"
-                            style="background:var(--amber)"></span>Pendentes</span>
-                    <span class="prog-leg"><span class="prog-dot" style="background:var(--red)"></span>Vencidas</span>
-                </div>
-            </div>
-
-            <!-- FILTERS -->
-            <div class="filters-bar">
-                <div class="filter-search">
-                    <svg width="14" height="14" fill="none" viewBox="0 0 24 24"
-                        style="color:var(--muted);flex-shrink:0">
-                        <circle cx="11" cy="11" r="8" stroke="currentColor" stroke-width="2" />
-                        <path d="M21 21l-4.35-4.35" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                    <input id="searchInput" placeholder="Buscar por descrição..." type="text" oninput="renderList()">
-                </div>
-                <select class="filter-select" id="statusFilter" onchange="renderList()">
-                    <option value="">Todos os status</option>
-                    <option value="pendente">Pendente</option>
-                    <option value="vencida">Vencida</option>
-                    <option value="paga">Paga</option>
-                </select>
-                <select class="filter-select" id="catFilter" onchange="renderList()">
-                    <option value="">Todas as categorias</option>
-                    <option value="Aluguel">Aluguel</option>
-                    <option value="Energia">Energia</option>
-                    <option value="Água">Água</option>
-                    <option value="Internet">Internet</option>
-                    <option value="Salários">Salários</option>
-                    <option value="Impostos">Impostos</option>
-                    <option value="Fornecedores">Fornecedores</option>
-                    <option value="Transporte">Transporte</option>
-                    <option value="Saúde">Saúde</option>
-                    <option value="Outros">Outros</option>
-                </select>
-                <input type="date" class="filter-select" id="periodoInicio" onchange="renderList()"
-                    title="Vencimento de">
-                <input type="date" class="filter-select" id="periodoFim" onchange="renderList()" title="Vencimento até">
-                <div class="filters-right">
-                    <button class="btn-ghost" onclick="clearFilters()">
-                        <svg fill="none" viewBox="0 0 24 24">
-                            <path d="M3 6h18M8 6V4h8v2M19 6l-1 14H6L5 6" stroke="currentColor" stroke-width="1.8"
-                                stroke-linecap="round" stroke-linejoin="round" />
-                        </svg>
-                        Limpar
-                    </button>
-                </div>
-            </div>
-
-            <!-- TABLE -->
-            <div class="contas-table">
-                <div class="ct-header">
-                    <div class="ct-col">Descrição</div>
-                    <div class="ct-col">Fornecedor</div>
-                    <div class="ct-col">Categoria</div>
-                    <div class="ct-col">Vencimento</div>
-                    <div class="ct-col">Valor</div>
-                    <div class="ct-col">Status</div>
-                    <div class="ct-col">Ações</div>
-                </div>
-                <div id="contasList"></div>
+    </article>
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Por categoria</h2>
+                <p class="card-sub">Distribuição das despesas</p>
             </div>
         </div>
-    </main>
-
-    <!-- MODAL NOVA / EDITAR CONTA -->
-    <div class="modal-overlay" id="modalOverlay" onclick="handleOverlayClick(event)">
-        <div class="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modalTitle">Nova Conta a Pagar</div>
-                <button class="modal-close" onclick="closeModal()">
-                    <svg fill="none" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <!-- OBRIGATÓRIOS -->
-                <div class="modal-section">
-                    <div class="modal-section-title">Dados obrigatórios</div>
-                    <div class="form-grid">
-                        <div class="form-group full">
-                            <label class="form-label">Descrição</label>
-                            <input class="form-input" id="fDesc" placeholder="Ex: Conta de Energia – Maio" type="text">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Fornecedor</label>
-                            <input class="form-input" id="fFornecedor" placeholder="Ex: Equatorial, Sabesp..."
-                                type="text">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Categoria</label>
-                            <select class="form-input" id="fCategoria">
-                                <option value="">Selecione...</option>
-                                <option>Aluguel</option>
-                                <option>Energia</option>
-                                <option>Água</option>
-                                <option>Internet</option>
-                                <option>Salários</option>
-                                <option>Impostos</option>
-                                <option>Fornecedores</option>
-                                <option>Transporte</option>
-                                <option>Saúde</option>
-                                <option>Outros</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Valor (R$)</label>
-                            <input class="form-input" id="fValor" placeholder="0,00" type="number" min="0" step="0.01">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Data de Vencimento</label>
-                            <input class="form-input" id="fData" type="date">
-                        </div>
-                    </div>
-                </div>
-
-                <!-- OPCIONAIS -->
-                <div class="modal-section">
-                    <div class="modal-section-title">Dados opcionais</div>
-                    <div class="form-grid">
-                        <div class="form-group full">
-                            <label class="form-label">Observação <span class="optional">(opcional)</span></label>
-                            <textarea class="form-input form-textarea" id="fObs"
-                                placeholder="Anotações sobre esta conta..."></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Forma de Pagamento <span
-                                    class="optional">(opcional)</span></label>
-                            <select class="form-input" id="fFormaPgto">
-                                <option value="">Não informado</option>
-                                <option>PIX</option>
-                                <option>Boleto</option>
-                                <option>Débito Automático</option>
-                                <option>Cartão de Crédito</option>
-                                <option>Transferência</option>
-                                <option>Dinheiro</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Anexo <span class="optional">(boleto / NF)</span></label>
-                            <div class="file-upload" onclick="document.getElementById('fAnexo').click()">
-                                <input type="file" id="fAnexo" accept=".pdf,.jpg,.jpeg,.png"
-                                    onchange="onFileChange(this)">
-                                <label class="file-upload-label">
-                                    📎 <span>Clique para anexar</span>
-                                </label>
-                                <div class="file-name" id="fileName"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- RECORRENTE -->
-                <div class="modal-section">
-                    <div class="recorrente-row">
-                        <div class="recorrente-label">
-                            <span>Conta recorrente</span>
-                            <span>Gera automaticamente a próxima mensalidade ao pagar</span>
-                        </div>
-                        <label class="toggle-switch">
-                            <input type="checkbox" id="fRecorrente">
-                            <span class="toggle-slider"></span>
-                        </label>
-                    </div>
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeModal()">Cancelar</button>
-                <button class="btn-primary" onclick="salvarConta()">
-                    <svg fill="none" viewBox="0 0 24 24" width="15" height="15">
-                        <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    Salvar Conta
-                </button>
-            </div>
+        <div class="chart-placeholder"><i class="fa-solid fa-chart-pie"></i>
+            <p>Sem dados para exibir</p>
+        </div>
+    </article>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Lista de contas</h2>
+            <p class="card-sub">Os pagamentos recebidos pela sua API serão renderizados nesta tabela.</p>
+        </div>
+        <div class="filters"><input class="filter-input" type="search" name="search" placeholder="Buscar conta"
+                aria-label="Buscar conta">
+            <div class="segment-control" data-tabs><button type="button" data-tab="all"
+                    class="active">Todos</button><button type="button" data-tab="pending">Pendentes</button><button
+                    type="button" data-tab="paid">Pagos</button></div>
         </div>
     </div>
-
-    <!-- MODAL MARCAR COMO PAGA -->
-    <div class="modal-overlay" id="modalPgtoOverlay" onclick="handlePgtoOverlayClick(event)">
-        <div class="modal modal-sm">
-            <div class="modal-header">
-                <div class="modal-title">Registrar Pagamento</div>
-                <button class="modal-close" onclick="closeModalPgto()">
-                    <svg fill="none" viewBox="0 0 24 24">
-                        <path d="M18 6L6 18M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
-                    </svg>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label">Data do Pagamento</label>
-                        <input class="form-input" id="pgtoData" type="date">
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Valor Pago (R$)</label>
-                        <input class="form-input" id="pgtoValor" placeholder="0,00" type="number" min="0" step="0.01">
-                    </div>
-                    <div class="form-group full">
-                        <label class="form-label">Forma de Pagamento</label>
-                        <select class="form-input" id="pgtoForma">
-                            <option value="">Não informado</option>
-                            <option>PIX</option>
-                            <option>Boleto</option>
-                            <option>Débito Automático</option>
-                            <option>Cartão de Crédito</option>
-                            <option>Transferência</option>
-                            <option>Dinheiro</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn-cancel" onclick="closeModalPgto()">Cancelar</button>
-                <button class="btn-primary" onclick="confirmarPagamento()">
-                    <svg fill="none" viewBox="0 0 24 24" width="15" height="15">
-                        <path d="M5 13l4 4L19 7" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"
-                            stroke-linejoin="round" />
-                    </svg>
-                    Confirmar Pagamento
-                </button>
-            </div>
-        </div>
+    <div class="empty-state"><i class="fa-solid fa-inbox"></i>
+        <p>Nenhuma conta a pagar carregada.</p><small>Use “Nova conta” para abrir o formulário ou conecte sua API a esta
+            área.</small>
     </div>
-
-    <div class="toast" id="toast"></div>
-
-    <script src="{{ url_for('static', filename='js/accounts-payable.js') }}"></script>
-</body>
-
-</html>
+</section>
+<div class="modal-overlay" id="payable-modal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="payable-title">
+        <header class="modal-header"><strong class="modal-title" id="payable-title">Nova conta a pagar</strong><button
+                type="button" class="icon-button" data-modal-close aria-label="Fechar"><i
+                    class="fa-solid fa-xmark"></i></button></header>
+        <form data-form-event="accounts-payable:create">
+            <div class="form-grid">
+                <div class="field"><label for="payable-description">Descrição</label><input id="payable-description"
+                        name="description" required></div>
+                <div class="field"><label for="payable-supplier">Fornecedor</label><input id="payable-supplier"
+                        name="supplier"></div>
+                <div class="field"><label for="payable-category">Categoria</label><input id="payable-category"
+                        name="category" required></div>
+                <div class="field"><label for="payable-amount">Valor</label><input id="payable-amount" name="amount"
+                        inputmode="decimal" required></div>
+                <div class="field"><label for="payable-due-date">Vencimento</label><input id="payable-due-date"
+                        name="due_date" type="date" required></div>
+                <div class="field"><label for="payable-method">Forma de pagamento</label><input id="payable-method"
+                        name="payment_method"></div>
+                <div class="field full"><label for="payable-notes">Observações</label><textarea id="payable-notes"
+                        name="notes"></textarea></div>
+            </div>
+            <div class="form-actions"><button type="button" class="button" data-modal-close>Cancelar</button><button
+                    class="button primary" type="submit">Salvar conta</button></div>
+        </form>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/accounts-payable.js') }}"></script>{% endblock %}

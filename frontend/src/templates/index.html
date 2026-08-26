@@ -1,285 +1,265 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <!-- Fontes exatas do Início[cite: 4] -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap"
         rel="stylesheet">
-    <title>WalletFlow</title>
+    <title>WalletFlow | Gestão financeira</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 
 <body>
-    <!-- HEADER[cite: 5] -->
-    <header class="header">
-        <div class="container nav">
-            <a href="#" class="brand">
-                <div class="logo-icon">💹</div>
-                <span class="logo-name">WalletFlow</span>
+    <header class="site-header">
+        <div class="container site-nav">
+            <a href="/" class="brand" aria-label="WalletFlow, ir para o início">
+                <span class="brand-symbol" aria-hidden="true">💹</span>
+                <span class="brand-name">WalletFlow</span>
             </a>
 
-            <nav class="nav-links">
+            <nav class="nav-links" aria-label="Navegação principal">
                 <a href="#funcionalidades">Recursos</a>
-                <a href="#como-funciona">Como Funciona</a>
+                <a href="#como-funciona">Como funciona</a>
                 <a href="#faq">Dúvidas</a>
             </nav>
 
-            <div class="cta-row">
-                <!-- Rotas dinâmicas do Flask[cite: 4, 5] -->
-                <a href="/login" class="btn btn-secondary">Entrar</a>
-                <a href="/register" class="btn btn-primary">Criar Conta Grátis</a>
+            <div class="nav-actions">
+                <a href="/login" class="button button-ghost">Entrar</a>
+                <a href="/register" class="button button-dark">Criar conta</a>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- HERO SECTION[cite: 5] -->
         <section class="hero">
             <div class="container hero-grid">
-                <div>
-                    <div class="eyebrow">Gestão Financeira Inteligente</div>
+                <div class="hero-copy">
+                    <p class="eyebrow">Gestão financeira inteligente</p>
                     <h1>Domine seu patrimônio com absoluta precisão.</h1>
-                    <p class="lead">
-                        Esqueça as planilhas lentas e confusas. O Rende Mais oferece um painel de alta performance para
-                        você gerenciar receitas, despesas e investimentos em tempo real.
-                    </p>
-
-                    <div class="cta-row">
-                        <a href="/register" class="btn btn-primary"
-                            style="padding: 1rem 1.8rem; font-size: 1.05rem;">Começar gratuitamente</a>
-                    </div>
-
-                    <div class="stats">
-                        <div>
-                            <strong>Interface Limpa</strong>
-                            Foco direto nos dados
-                        </div>
-                        <div>
-                            <strong>Zero Telemetria</strong>
-                            Seus dados são 100% seus
-                        </div>
-                        <div>
-                            <strong>Alta Velocidade</strong>
-                            Carregamento instantâneo
-                        </div>
-                    </div>
+                    <p class="lead">Esqueça as planilhas lentas e confusas. O WalletFlow oferece um painel de alta
+                        performance para você gerenciar receitas, despesas e investimentos em tempo real.</p>
+                    <a href="/register" class="button button-dark button-large">Começar gratuitamente</a>
                 </div>
 
-                <!-- MOCKUP CSS: Representação fiel do inicio.html[cite: 4] -->
-                <div class="mockup-wrapper">
-                    <div class="mockup-sidebar">
-                        <div style="display:flex; gap:8px; align-items:center; margin-bottom: 20px;">
-                            <div class="logo-icon" style="width:24px; height:24px; font-size:12px;">💹</div>
-                        </div>
-                        <div style="height:8px; background:var(--border); border-radius:4px; width:100%;"></div>
-                        <div style="height:8px; background:var(--border); border-radius:4px; width:80%;"></div>
-                        <div style="height:8px; background:var(--border); border-radius:4px; width:90%;"></div>
-                        <div style="height:8px; background:#eff6ff; border-radius:4px; width:100%; margin-top:15px;">
-                        </div>
-                        <div
-                            style="height:8px; background:var(--border); border-radius:4px; width:85%; margin-top:10px;">
-                        </div>
+                <div class="dashboard-preview" aria-label="Prévia ilustrativa do painel WalletFlow">
+                    <div class="preview-sidebar">
+                        <span class="preview-mark" aria-hidden="true">💹</span>
+                        <span class="preview-nav-line preview-nav-line--active"></span>
+                        <span class="preview-nav-line"></span>
+                        <span class="preview-nav-line preview-nav-line--short"></span>
+                        <span class="preview-nav-line"></span>
                     </div>
-                    <div class="mockup-main">
-                        <div class="mockup-header">
-                            <div class="mockup-title">Olá, Usuário 👋</div>
-                            <div
-                                style="width:36px; height:36px; border-radius:50%; background:var(--accent2); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:bold;">
-                                US</div>
+                    <div class="preview-main">
+                        <div class="preview-topline">
+                            <div>
+                                <span class="preview-kicker">Visão geral</span>
+                                <strong>Olá, Usuário</strong>
+                            </div>
+                            <span class="preview-avatar">US</span>
                         </div>
-
-                        <div class="mockup-metrics">
-                            <div class="m-card">
-                                <div class="m-label"><span style="color:var(--green)">💰</span> Saldo Total</div>
-                                <div class="m-value">R$ 48.320</div>
-                            </div>
-                            <div class="m-card">
-                                <div class="m-label"><span style="color:var(--blue)">📥</span> A Receber</div>
-                                <div class="m-value">R$ 12.500</div>
-                            </div>
-                            <div class="m-card">
-                                <div class="m-label"><span style="color:var(--red)">📤</span> A Pagar</div>
-                                <div class="m-value">R$ 7.840</div>
-                            </div>
-                            <div class="m-card">
-                                <div class="m-label"><span style="color:var(--amber)">📈</span> Rentabilidade</div>
-                                <div class="m-value" style="color:var(--green)">+R$ 4.660</div>
-                            </div>
+                        <div class="preview-metrics">
+                            <article class="metric-card">
+                                <span>Saldo total</span>
+                                <strong>R$ 48.320</strong>
+                            </article>
+                            <article class="metric-card">
+                                <span>A receber</span>
+                                <strong>R$ 12.500</strong>
+                            </article>
+                            <article class="metric-card">
+                                <span>A pagar</span>
+                                <strong>R$ 7.840</strong>
+                            </article>
+                            <article class="metric-card metric-card--positive">
+                                <span>Rentabilidade</span>
+                                <strong>+R$ 4.660</strong>
+                            </article>
                         </div>
-
-                        <div class="mockup-chart">
-                            <div style="font-weight:600; font-size:0.95rem; margin-bottom: 5px;">Evolução Patrimonial
+                        <div class="preview-chart">
+                            <div class="preview-chart-heading">
+                                <strong>Evolução patrimonial</strong>
+                                <span>Fluxo de caixa mensal</span>
                             </div>
-                            <div style="font-size:0.8rem; color:var(--muted)">Fluxo de Caixa Mensal</div>
-                            <div class="chart-line"></div>
+                            <div class="chart-grid" aria-hidden="true">
+                                <span></span><span></span><span></span><span></span></div>
+                            <div class="chart-line" aria-hidden="true"></div>
                         </div>
                     </div>
                 </div>
             </div>
+
+            <div class="container trust-list" aria-label="Diferenciais da plataforma">
+                <p><strong>Interface limpa</strong><span>Foco direto nos dados</span></p>
+                <p><strong>Zero telemetria</strong><span>Seus dados são 100% seus</span></p>
+                <p><strong>Alta velocidade</strong><span>Carregamento instantâneo</span></p>
+            </div>
         </section>
 
-        <!-- FUNCIONALIDADES[cite: 5] -->
-        <section id="funcionalidades" class="section bg-white">
+        <section id="funcionalidades" class="section section-soft">
             <div class="container">
-                <div class="section-title">
-                    <h2>Construído para máxima eficiência</h2>
-                    <p>Tudo o que você precisa para gerenciar seu dinheiro de forma profissional, agrupado em uma
-                        interface minimalista e livre de distrações.</p>
+                <div class="section-heading section-heading--split">
+                    <div>
+                        <p class="eyebrow">Tudo em um lugar</p>
+                        <h2>Construído para máxima eficiência</h2>
+                    </div>
+                    <p>Tudo o que você precisa para gerenciar seu dinheiro de forma profissional, em uma interface
+                        minimalista e livre de distrações.</p>
                 </div>
 
                 <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="icon">📊</div>
-                        <h3>Dashboards Visuais</h3>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">📊</span>
+                        <h3>Dashboards visuais</h3>
                         <p>Acompanhe seu saldo total, rentabilidade e distribuição de gastos com gráficos dinâmicos e
-                            fáceis de ler.[cite: 4]</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="icon">📅</div>
-                        <h3>Controle de Vencimentos</h3>
+                            fáceis de ler.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">📅</span>
+                        <h3>Controle de vencimentos</h3>
                         <p>Nunca mais pague juros por atraso. Uma agenda completa para gerenciar contas a pagar e
-                            previsões de recebimento.[cite: 4]</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="icon">🎯</div>
-                        <h3>Plano de Aportes</h3>
+                            previsões de recebimento.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">🎯</span>
+                        <h3>Plano de aportes</h3>
                         <p>Simule e estruture onde alocar seu dinheiro mensalmente para atingir suas metas de
-                            investimento mais rápido.[cite: 4]</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="icon">⚡</div>
-                        <h3>Alta Performance</h3>
+                            investimento mais rápido.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">⚡</span>
+                        <h3>Alta performance</h3>
                         <p>Código limpo e otimizado para que a plataforma carregue instantaneamente, valorizando o seu
                             tempo no dia a dia.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="icon">🔒</div>
-                        <h3>Privacidade Absoluta</h3>
-                        <p>Suas finanças são assunto seu. Sistema construído sem telemetria de terceiros, garantindo que
-                            seus dados não sejam rastreados.</p>
-                    </div>
-
-                    <div class="feature-card">
-                        <div class="icon">📱</div>
-                        <h3>Acesso Universal</h3>
-                        <p>Design totalmente responsivo. Consulte seus relatórios e adicione transações tanto no desktop
-                            quanto no seu smartphone.</p>
-                    </div>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">🔒</span>
+                        <h3>Privacidade absoluta</h3>
+                        <p>Suas finanças são assunto seu. O sistema evita telemetria de terceiros para que seus dados
+                            não sejam rastreados.</p>
+                    </article>
+                    <article class="feature-card">
+                        <span class="feature-icon" aria-hidden="true">📱</span>
+                        <h3>Acesso universal</h3>
+                        <p>Consulte seus relatórios e adicione transações tanto no desktop quanto no seu smartphone.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- COMO FUNCIONA -->
+        <section class="proof-band">
+            <div class="container proof-layout">
+                <div>
+                    <p class="eyebrow eyebrow-light">Controle que acompanha você</p>
+                    <h2>Clareza para decidir melhor todos os dias.</h2>
+                    <p class="proof-intro">Uma visão organizada do que entra, do que sai e do que está construindo para
+                        o futuro.</p>
+                </div>
+                <figure class="proof-quote">
+                    <blockquote>“A apresentação e a velocidade da plataforma mudaram minha forma de ver o dinheiro. Eu
+                        finalmente abandonei as planilhas complexas.”</blockquote>
+                    <figcaption><strong>Lucas M.</strong><span>Desenvolvedor Backend &amp; Investidor</span>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
         <section id="como-funciona" class="section">
             <div class="container">
-                <div class="section-title">
+                <div class="section-heading section-heading--center">
+                    <p class="eyebrow">Comece agora</p>
                     <h2>Organize sua vida em 3 passos</h2>
                     <p>Não há curva de aprendizado. O sistema foi desenhado para ser intuitivo desde o primeiro clique.
                     </p>
                 </div>
 
-                <div class="steps-container">
-                    <div class="step">
-                        <div class="step-number">1</div>
-                        <h3>Crie sua conta</h3>
-                        <p>Um cadastro rápido e seguro. Em menos de um minuto você já terá acesso ao seu painel
-                            financeiro exclusivo.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">2</div>
-                        <h3>Registre suas contas</h3>
-                        <p>Adicione seu saldo atual, suas contas fixas a pagar e sua previsão de receitas mensais.</p>
-                    </div>
-                    <div class="step">
-                        <div class="step-number">3</div>
-                        <h3>Acompanhe e cresça</h3>
-                        <p>Deixe que o sistema gere gráficos automáticos e mostre exatamente para onde seu dinheiro está
-                            indo.</p>
-                    </div>
-                </div>
+                <ol class="steps-list">
+                    <li class="step">
+                        <span class="step-number">01</span>
+                        <div>
+                            <h3>Crie sua conta</h3>
+                            <p>Um cadastro rápido e seguro. Em menos de um minuto você já terá acesso ao seu painel
+                                financeiro exclusivo.</p>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span class="step-number">02</span>
+                        <div>
+                            <h3>Registre suas contas</h3>
+                            <p>Adicione seu saldo atual, suas contas fixas a pagar e sua previsão de receitas mensais.
+                            </p>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <span class="step-number">03</span>
+                        <div>
+                            <h3>Acompanhe e cresça</h3>
+                            <p>Deixe que o sistema gere gráficos automáticos e mostre exatamente para onde seu dinheiro
+                                está indo.</p>
+                        </div>
+                    </li>
+                </ol>
             </div>
         </section>
 
-        <!-- PROVA SOCIAL[cite: 5] -->
-        <section class="container">
-            <div class="proof-section">
-                <div style="color: rgba(255,255,255,0.6); font-size: 2rem; margin-bottom: 1rem;">"</div>
-                <p class="proof-quote">
-                    A apresentação e a velocidade da plataforma mudaram minha forma de ver o dinheiro. O visual escuro
-                    com detalhes em azul transmite muita confiança. Eu finalmente abandonei as planilhas complexas.
-                </p>
-                <div class="proof-author">Lucas M.</div>
-                <div class="proof-role">Desenvolvedor Backend & Investidor</div>
-            </div>
-        </section>
-
-        <!-- FAQ -->
-        <section id="faq" class="section bg-white">
+        <section id="faq" class="section section-soft">
             <div class="container">
-                <div class="section-title">
-                    <h2>Perguntas Frequentes</h2>
-                    <p>Respostas rápidas para você tomar a sua decisão.</p>
+                <div class="section-heading section-heading--center">
+                    <p class="eyebrow">Dúvidas</p>
+                    <h2>Perguntas frequentes</h2>
+                    <p>Respostas rápidas para você tomar sua decisão.</p>
                 </div>
 
                 <div class="faq-grid">
-                    <div class="faq-item">
-                        <h4>A plataforma é gratuita?</h4>
+                    <article class="faq-item">
+                        <h3>A plataforma é gratuita?</h3>
                         <p>Sim! Você pode criar sua conta e acessar as ferramentas fundamentais de controle de caixa,
                             contas a pagar e receber sem custo algum.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>Meus dados estão seguros?</h4>
+                    </article>
+                    <article class="faq-item">
+                        <h3>Meus dados estão seguros?</h3>
                         <p>Totalmente. Utilizamos criptografia de ponta a ponta e uma política rigorosa de zero
                             telemetria. Nós não vendemos e não analisamos seus dados financeiros.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>Posso acessar pelo celular?</h4>
-                        <p>Sim. A interface do Rende Mais foi desenvolvida para se adaptar perfeitamente a telas
+                    </article>
+                    <article class="faq-item">
+                        <h3>Posso acessar pelo celular?</h3>
+                        <p>Sim. A interface do WalletFlow foi desenvolvida para se adaptar perfeitamente a telas
                             menores, permitindo que você gerencie seu dinheiro de qualquer lugar.</p>
-                    </div>
-                    <div class="faq-item">
-                        <h4>Como funciona o "Plano de Aportes"?</h4>
-                        <p>É uma funcionalidade exclusiva onde você define metas de economia e investimentos. A
-                            plataforma calcula o quanto você tem disponível após suas despesas para você investir com
-                            segurança.[cite: 4]</p>
-                    </div>
+                    </article>
+                    <article class="faq-item">
+                        <h3>Como funciona o plano de aportes?</h3>
+                        <p>Você define metas de economia e investimentos. A plataforma calcula o quanto está disponível
+                            após as despesas para você investir com segurança.</p>
+                    </article>
                 </div>
             </div>
         </section>
 
-        <!-- FINAL CTA[cite: 5] -->
-        <section class="container">
-            <div class="final-cta">
-                <h2>Pronto para elevar o nível das suas finanças?</h2>
-                <p>Junte-se à plataforma desenhada para quem exige controle absoluto, eficiência e privacidade.</p>
-                <a href="/register" class="btn btn-primary"
-                    style="background:#ffffff; color:var(--accent2); font-size:1.15rem; padding: 1.1rem 2.5rem; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">Criar
-                    Minha Conta Agora</a>
+        <section class="section final-section">
+            <div class="container final-cta">
+                <div>
+                    <p class="eyebrow">Seu próximo passo</p>
+                    <h2>Pronto para elevar o nível das suas finanças?</h2>
+                </div>
+                <div>
+                    <p>Junte-se à plataforma desenhada para quem exige controle absoluto, eficiência e privacidade.</p>
+                    <a href="/register" class="button button-dark button-large">Criar minha conta</a>
+                </div>
             </div>
         </section>
     </main>
 
-    <!-- FOOTER[cite: 5] -->
-    <footer class="footer">
-        <div class="container" style="display: flex; justify-content: space-between; align-items: center;">
-            <div style="display: flex; align-items: center; gap: 8px;">
-                <span class="logo-icon" style="width:20px; height:20px; font-size:10px;">💹</span>
-                <strong style="color:var(--accent)">Rende Mais</strong>
-            </div>
-            <div>
-                © 2026 Todos os direitos reservados.
-            </div>
-            <div style="display: flex; gap: 1.5rem;">
-                <a href="#" style="color:var(--muted); text-decoration:none;">Termos</a>
-                <a href="#" style="color:var(--muted); text-decoration:none;">Privacidade</a>
-            </div>
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <a href="/" class="brand" aria-label="WalletFlow, ir para o início">
+                <span class="brand-symbol" aria-hidden="true">💹</span>
+                <span class="brand-name">WalletFlow</span>
+            </a>
+            <p>© 2026 Todos os direitos reservados.</p>
+            <nav aria-label="Links legais"><a href="#">Termos</a><a href="#">Privacidade</a></nav>
         </div>
     </footer>
 </body>

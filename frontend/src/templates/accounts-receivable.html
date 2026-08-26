@@ -1,313 +1,105 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalletFlow | Contas a Receber</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/accounts-receivable.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
-        rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
-    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💹</div>
-            <span class="logo-name">WalletFlow</span>
+{% extends "base.html" %}
+{% set page_id = "accounts-receivable" %}
+{% block title %}Contas a Receber{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/accounts-receivable.css') }}">{% endblock %}
+{% block page_title %}Contas a Receber{% endblock %}
+{% block page_action %}<button type="button" class="button primary" data-modal-open="receivable-modal"><i
+        class="fa-solid fa-plus"></i>Nova conta</button>{% endblock %}
+{% block content %}
+<section class="metrics-grid" aria-label="Resumo de contas a receber">
+    <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-calendar-check"></i></span><span
+            class="metric-label">Total a receber</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card green"><span class="metric-icon"><i class="fa-solid fa-circle-check"></i></span><span
+            class="metric-label">Recebido no mês</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card amber"><span class="metric-icon"><i class="fa-solid fa-clock"></i></span><span
+            class="metric-label">Pendente</span><strong class="metric-value">—</strong><span
+            class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card red"><span class="metric-icon"><i
+                class="fa-solid fa-triangle-exclamation"></i></span><span class="metric-label">Em atraso</span><strong
+            class="metric-value">—</strong><span class="metric-hint">Aguardando dados</span></article>
+</section>
+<section class="grid-2-1">
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Recebimentos por período</h2>
+                <p class="card-sub">Área reservada para o gráfico da API.</p>
+            </div>
+            <div class="segment-control" data-tabs><button type="button" data-tab="3">3M</button><button type="button"
+                    data-tab="6" class="active">6M</button><button type="button" data-tab="12">12M</button></div>
         </div>
-
-        <div class="sidebar-user">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="name">Usuário</div>
-                <div class="role">Conta pessoal</div>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
+        <div class="chart-placeholder"><i class="fa-solid fa-chart-column"></i>
+            <p>Sem dados para exibir</p>
         </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu</div>
-
-            <a class="nav-item" href="/dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                Início
-            </a>
-
-            <a class="nav-item active" href="/accounts-receivable">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                Contas a Receber
-            </a>
-
-            <a class="nav-item" href="/accounts-payable">
-                <i class="fa-solid fa-credit-card"></i>
-                Contas a Pagar
-            </a>
-
-            <a class="nav-item" href="/investment-plans">
-                <i class="fa-solid fa-chart-line"></i>
-                Plano de Aporte
-            </a>
-
-            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
-
-            <a class="nav-item" href="/statements">
-                <i class="fa-solid fa-receipt"></i>
-                Extrato
-            </a>
-
-            <a class="nav-item" href="/transactions">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Histórico
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="/support">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Ajuda e Suporte
-            </a>
-            <a class="nav-item" href="/settings">
-                <i class="fa-solid fa-gear"></i>
-                Configurações
-            </a>
+    </article>
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Por categoria</h2>
+                <p class="card-sub">Distribuição das receitas</p>
+            </div>
         </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="greeting">Contas a Receber</div>
-                <div class="date" id="topbar-date"></div>
-            </div>
-            <div class="topbar-right">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input id="search-input" placeholder="Buscar conta..." type="text">
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-bell"></i>
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-                <button class="btn-nova-conta" id="btn-nova-conta">
-                    <i class="fa-solid fa-plus"></i>
-                    Nova Conta
-                </button>
-            </div>
-        </header>
-
-        <!-- PAGE CONTENT -->
-        <div class="page">
-
-            <!-- METRIC CARDS -->
-            <div class="metrics-row">
-                <div class="metric-card blue">
-                    <div class="metric-icon blue"><i class="fa-solid fa-calendar-check"></i></div>
-                    <div class="metric-label">Total a Receber</div>
-                    <div class="metric-value" id="metric-total">R$ 0,00</div>
-                    <span class="metric-badge up" id="metric-total-badge">— contas</span>
-                </div>
-                <div class="metric-card green">
-                    <div class="metric-icon green"><i class="fa-solid fa-circle-check"></i></div>
-                    <div class="metric-label">Recebido (mês)</div>
-                    <div class="metric-value" id="metric-recebido">R$ 0,00</div>
-                    <span class="metric-badge up" id="metric-recebido-badge">— recebidas</span>
-                </div>
-                <div class="metric-card amber">
-                    <div class="metric-icon amber"><i class="fa-solid fa-clock"></i></div>
-                    <div class="metric-label">Pendente</div>
-                    <div class="metric-value" id="metric-pendente">R$ 0,00</div>
-                    <span class="metric-badge neutral" id="metric-pendente-badge">— pendentes</span>
-                </div>
-                <div class="metric-card red">
-                    <div class="metric-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
-                    <div class="metric-label">Em Atraso</div>
-                    <div class="metric-value" id="metric-atraso">R$ 0,00</div>
-                    <span class="metric-badge down" id="metric-atraso-badge">— em atraso</span>
-                </div>
-            </div>
-
-            <!-- CHART + RESUMO ROW -->
-            <div class="charts-row">
-                <div class="card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Recebimentos por Mês</div>
-                            <div class="card-sub">Recebido vs Previsto — 2025</div>
-                        </div>
-                        <div class="period-tabs">
-                            <div class="period-tab" data-period="3">3M</div>
-                            <div class="period-tab active" data-period="6">6M</div>
-                            <div class="period-tab" data-period="12">12M</div>
-                        </div>
-                    </div>
-                    <div class="chart-wrap">
-                        <canvas id="barChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="card">
-                    <div class="card-header">
-                        <div>
-                            <div class="card-title">Por Categoria</div>
-                            <div class="card-sub">Distribuição das receitas</div>
-                        </div>
-                    </div>
-                    <div class="donut-wrap">
-                        <canvas id="donutChart"></canvas>
-                    </div>
-                    <div class="donut-legend" id="donut-legend"></div>
-                </div>
-            </div>
-
-            <!-- TABELA PRINCIPAL -->
-            <div class="card">
-                <div class="card-header">
-                    <div>
-                        <div class="card-title">Lista de Contas</div>
-                        <div class="card-sub" id="table-sub">Todas as contas a receber</div>
-                    </div>
-                    <div class="table-controls">
-                        <div class="filter-tabs">
-                            <button class="filter-tab active" data-filter="todos">Todos</button>
-                            <button class="filter-tab" data-filter="pendente">Pendente</button>
-                            <button class="filter-tab" data-filter="recebido">Recebido</button>
-                            <button class="filter-tab" data-filter="atrasado">Atrasado</button>
-                        </div>
-                        <select class="select-mes" id="select-mes">
-                            <option value="">Todos os meses</option>
-                            <option value="01">Janeiro</option>
-                            <option value="02">Fevereiro</option>
-                            <option value="03">Março</option>
-                            <option value="04">Abril</option>
-                            <option value="05">Maio</option>
-                            <option value="06">Junho</option>
-                            <option value="07">Julho</option>
-                            <option value="08">Agosto</option>
-                            <option value="09">Setembro</option>
-                            <option value="10">Outubro</option>
-                            <option value="11">Novembro</option>
-                            <option value="12">Dezembro</option>
-                        </select>
-                    </div>
-                </div>
-
-                <div class="table-wrapper">
-                    <table class="transactions" id="contas-table">
-                        <thead>
-                            <tr>
-                                <th>Descrição</th>
-                                <th>Categoria</th>
-                                <th>Vencimento</th>
-                                <th>Status</th>
-                                <th>Valor</th>
-                                <th>Ações</th>
-                            </tr>
-                        </thead>
-                        <tbody id="contas-tbody">
-                            <!-- preenchido via JS -->
-                        </tbody>
-                    </table>
-                    <div class="empty-state" id="empty-state" style="display:none">
-                        <i class="fa-solid fa-inbox"></i>
-                        <p>Nenhuma conta encontrada.</p>
-                    </div>
-                </div>
-
-                <div class="table-footer">
-                    <span class="table-count" id="table-count">0 registros</span>
-                    <div class="pagination" id="pagination"></div>
-                </div>
-            </div>
-
-        </div><!-- /page -->
-    </main>
-
-    <!-- MODAL NOVA / EDITAR CONTA -->
-    <div class="modal-overlay" id="modal-overlay">
-        <div class="modal" id="modal">
-            <div class="modal-header">
-                <div class="modal-title" id="modal-title">Nova Conta a Receber</div>
-                <button class="modal-close" id="modal-close"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            <div class="modal-body">
-                <form id="conta-form" autocomplete="off">
-                    <input type="hidden" id="form-id">
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Descrição *</label>
-                            <input type="text" id="form-descricao" name="form-descricao"
-                                placeholder="Ex: Salário, Freelance...">
-                        </div>
-                        <div class="form-group">
-                            <label>Categoria *</label>
-                            <select id="form-categoria" name="form-categoria">
-                                <option value="">Selecione</option>
-                                <option>Salário</option>
-                                <option>Freelance</option>
-                                <option>Aluguel Recebido</option>
-                                <option>Dividendos</option>
-                                <option>Vendas</option>
-                                <option>Reembolso</option>
-                                <option>Outros</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Valor (R$) *</label>
-                            <input type="text" id="form-valor" name="form-valor" placeholder="0,00">
-                        </div>
-                        <div class="form-group">
-                            <label>Vencimento *</label>
-                            <input type="date" id="form-vencimento" name="form-vencimento">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label>Status</label>
-                            <select id="form-status" name="form-status">
-                                <option value="pendente">Pendente</option>
-                                <option value="recebido">Recebido</option>
-                                <option value="atrasado">Atrasado</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Recorrência</label>
-                            <select id="form-recorrencia" name="form-recorrencia">
-                                <option value="nenhuma">Nenhuma</option>
-                                <option value="mensal">Mensal</option>
-                                <option value="anual">Anual</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group full">
-                        <label>Observações</label>
-                        <textarea id="form-obs" name="form-obs" placeholder="Notas opcionais..." rows="2"></textarea>
-                    </div>
-                    <div class="form-actions">
-                        <button type="button" class="btn-cancelar" id="btn-cancelar">Cancelar</button>
-                        <button type="submit" class="btn-salvar" id="btn-salvar">
-                            <i class="fa-solid fa-floppy-disk"></i> Salvar
-                        </button>
-                    </div>
-                </form>
-            </div>
+        <div class="chart-placeholder"><i class="fa-solid fa-chart-pie"></i>
+            <p>Sem dados para exibir</p>
+        </div>
+    </article>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Lista de contas</h2>
+            <p class="card-sub">Os registros recebidos pela sua API serão renderizados nesta tabela.</p>
+        </div>
+        <div class="filters"><input class="filter-input" type="search" name="search" placeholder="Buscar conta"
+                aria-label="Buscar conta">
+            <div class="segment-control" data-tabs><button type="button" data-tab="all"
+                    class="active">Todos</button><button type="button" data-tab="pending">Pendentes</button><button
+                    type="button" data-tab="received">Recebidos</button></div>
         </div>
     </div>
-
-    <!-- TOAST -->
-    <div class="toast" id="toast"></div>
-
-    <script src="{{ url_for('static', filename='js/accounts-receivable.js') }}"></script>
-</body>
-
-</html>
+    <div class="empty-state"><i class="fa-solid fa-inbox"></i>
+        <p>Nenhuma conta a receber carregada.</p><small>Use “Nova conta” para abrir o formulário ou conecte sua API a
+            esta área.</small>
+    </div>
+</section>
+<div class="modal-overlay" id="receivable-modal">
+    <section class="modal" role="dialog" aria-modal="true" aria-labelledby="receivable-title">
+        <header class="modal-header"><strong class="modal-title" id="receivable-title">Nova conta a
+                receber</strong><button type="button" class="icon-button" data-modal-close aria-label="Fechar"><i
+                    class="fa-solid fa-xmark"></i></button></header>
+        <form data-form-event="accounts-receivable:create">
+            <div class="form-grid">
+                <div class="field"><label for="receivable-description">Descrição</label><input
+                        id="receivable-description" name="description" required></div>
+                <div class="field"><label for="receivable-category">Categoria</label><input id="receivable-category"
+                        name="category" required></div>
+                <div class="field"><label for="receivable-amount">Valor</label><input id="receivable-amount"
+                        name="amount" inputmode="decimal" required></div>
+                <div class="field"><label for="receivable-due-date">Vencimento</label><input id="receivable-due-date"
+                        name="due_date" type="date" required></div>
+                <div class="field"><label for="receivable-status">Status</label><select id="receivable-status"
+                        name="status">
+                        <option value="pending">Pendente</option>
+                        <option value="received">Recebido</option>
+                        <option value="overdue">Em atraso</option>
+                    </select></div>
+                <div class="field"><label for="receivable-frequency">Recorrência</label><select
+                        id="receivable-frequency" name="frequency">
+                        <option value="none">Sem recorrência</option>
+                        <option value="monthly">Mensal</option>
+                        <option value="annual">Anual</option>
+                    </select></div>
+                <div class="field full"><label for="receivable-notes">Observações</label><textarea id="receivable-notes"
+                        name="notes"></textarea></div>
+            </div>
+            <div class="form-actions"><button type="button" class="button" data-modal-close>Cancelar</button><button
+                    class="button primary" type="submit">Salvar conta</button></div>
+        </form>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/accounts-receivable.js') }}"></script>{% endblock %}

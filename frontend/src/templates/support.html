@@ -1,378 +1,207 @@
-<!DOCTYPE html>
-<html lang="pt-br">
+{% extends "base.html" %}
+{% set page_id = "support" %}
+{% block title %}Ajuda e Suporte{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/support.css') }}">
+{% endblock %}
+{% block page_title %}Ajuda e Suporte{% endblock %}
+{% block content %}
+<div class="support-page">
+    <section class="support-hero" aria-label="Central de suporte">
+        <p class="hero-badge"><i class="fa-solid fa-headset" aria-hidden="true"></i>Central de suporte</p>
+        <h1>Ajuda e Suporte</h1>
+        <p>Encontre respostas rápidas, abra chamados ou fale com nossa equipe. Estamos aqui para ajudar.</p>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalletFlow | Ajuda e Suporte</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/support.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
-        rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💹</div>
-            <span class="logo-name">WalletFlow</span>
+        <div class="hero-search" role="search">
+            <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+            <input type="text" id="faq-search" placeholder="Pesquise sua dúvida... ex: como lançar uma cobrança?"
+                aria-label="Pesquisar na base de conhecimento" oninput="filterFaq(this.value)">
+            <button type="button" onclick="filterFaq(document.getElementById('faq-search').value)"
+                aria-label="Buscar"><i class="fa-solid fa-arrow-right"
+                    aria-hidden="true"></i><span>Buscar</span></button>
         </div>
+    </section>
 
-        <div class="sidebar-user">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="name">Usuário</div>
-                <div class="role">Conta pessoal</div>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
+    <section aria-labelledby="categories-title">
+        <h2 class="support-section-title" id="categories-title"><i class="fa-solid fa-bolt"
+                aria-hidden="true"></i>Categorias rápidas</h2>
+        <div class="categories-grid" role="list">
+            <a class="category-card" href="#faq" onclick="filterFaq('pagamento')"><span class="cat-icon"
+                    aria-hidden="true"><i class="fa-solid fa-credit-card"></i></span><span>Pagamentos</span><small>8
+                    artigos</small></a>
+            <a class="category-card" href="#faq" onclick="filterFaq('conta')"><span class="cat-icon"
+                    aria-hidden="true"><i class="fa-solid fa-user-shield"></i></span><span>Conta &amp;
+                    Acesso</span><small>5 artigos</small></a>
+            <a class="category-card" href="#faq" onclick="filterFaq('relatório')"><span class="cat-icon"
+                    aria-hidden="true"><i class="fa-solid fa-chart-bar"></i></span><span>Relatórios</span><small>6
+                    artigos</small></a>
+            <a class="category-card" href="#faq" onclick="filterFaq('segurança')"><span class="cat-icon"
+                    aria-hidden="true"><i class="fa-solid fa-lock"></i></span><span>Segurança</span><small>4
+                    artigos</small></a>
+            <a class="category-card" href="#faq" onclick="filterFaq('aporte')"><span class="cat-icon"
+                    aria-hidden="true"><i class="fa-solid fa-piggy-bank"></i></span><span>Plano de Aporte</span><small>3
+                    artigos</small></a>
+            <a class="category-card" href="#chamado"><span class="cat-icon" aria-hidden="true"><i
+                        class="fa-solid fa-ticket"></i></span><span>Abrir chamado</span><small>Fale conosco</small></a>
         </div>
+    </section>
 
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu</div>
+    <div class="two-col">
+        <section class="card" id="faq" aria-labelledby="faq-title">
+            <div class="card-header">
+                <h2 id="faq-title"><i class="fa-solid fa-circle-question" aria-hidden="true"></i>Perguntas frequentes
+                </h2>
+                <span id="faq-count" aria-live="polite"></span>
+            </div>
+            <div id="faq-list" role="list"></div>
+            <div id="faq-empty" class="empty-state" aria-live="polite" hidden>
+                <i class="fa-solid fa-face-meh" aria-hidden="true"></i>
+                <p>Nenhuma pergunta encontrada para “<span id="empty-term"></span>”.<br>Tente outro termo ou abra um
+                    chamado.</p>
+            </div>
+        </section>
 
-            <a class="nav-item active" href="/dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                Início
-            </a>
+        <section class="card" id="chamado" aria-labelledby="ticket-title">
+            <div class="card-header">
+                <h2 id="ticket-title"><i class="fa-solid fa-paper-plane" aria-hidden="true"></i>Abrir chamado</h2>
+            </div>
 
-            <a class="nav-item" href="/accounts-receivable">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                Contas a Receber
-            </a>
+            <div class="form-row">
+                <div class="form-group"><label for="ticket-subject">Assunto</label><input type="text"
+                        id="ticket-subject" placeholder="Descreva brevemente..."></div>
+                <div class="form-group"><label for="ticket-category">Categoria</label><select id="ticket-category">
+                        <option value="">Selecione...</option>
+                        <option>Pagamentos</option>
+                        <option>Conta &amp; Acesso</option>
+                        <option>Relatórios</option>
+                        <option>Segurança</option>
+                        <option>Plano de Aporte</option>
+                        <option>Outro</option>
+                    </select></div>
+            </div>
+            <div class="form-row">
+                <div class="form-group"><label for="ticket-priority">Prioridade</label><select id="ticket-priority">
+                        <option>Baixa</option>
+                        <option selected>Média</option>
+                        <option>Alta</option>
+                    </select></div>
+                <div class="form-group"><label for="ticket-email">E-mail de contato</label><input type="email"
+                        id="ticket-email" placeholder="seu@email.com"></div>
+            </div>
+            <div class="form-group"><label for="ticket-desc">Descrição detalhada</label><textarea id="ticket-desc"
+                    placeholder="Descreva o problema com o máximo de detalhes possível..."></textarea></div>
+            <div class="form-group">
+                <label for="file-input">Anexos <span>(opcional)</span></label>
+                <div class="upload-area" onclick="document.getElementById('file-input').click()" role="button"
+                    tabindex="0" aria-label="Selecionar arquivo para anexar">
+                    <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                    Clique para enviar ou arraste arquivos aqui
+                    <small>PNG, JPG, PDF — máx. 10 MB</small>
+                    <span id="file-name" class="file-name" hidden></span>
+                </div>
+                <input type="file" id="file-input" class="file-input" accept=".png,.jpg,.jpeg,.pdf"
+                    onchange="showFileName(this)" aria-label="Selecionar arquivo">
+            </div>
+            <button class="btn-primary" type="button" onclick="submitTicket()"><i class="fa-solid fa-paper-plane"
+                    aria-hidden="true"></i>Enviar chamado</button>
+        </section>
+    </div>
 
-            <a class="nav-item" href="/accounts-payable">
-                <i class="fa-solid fa-credit-card"></i>
-                Contas a Pagar
-            </a>
-
-            <a class="nav-item" href="/investment-plans">
-                <i class="fa-solid fa-chart-line"></i>
-                Plano de Aporte
-            </a>
-
-            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
-
-            <a class="nav-item" href="/statements">
-                <i class="fa-solid fa-receipt"></i>
-                Extrato
-            </a>
-
-            <a class="nav-item" href="/transactions">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Histórico
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="/support">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Ajuda e Suporte
-            </a>
-            <a class="nav-item" href="/settings">
-                <i class="fa-solid fa-gear"></i>
-                Configurações
-            </a>
+    <section class="card" id="tickets-section" aria-labelledby="tickets-title">
+        <div class="card-header">
+            <h2 id="tickets-title"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>Meus chamados</h2>
+            <button class="link-btn" type="button"><i class="fa-solid fa-filter" aria-hidden="true"></i>Filtrar</button>
         </div>
-    </aside>
+        <div class="table-wrapper">
+            <table class="tickets-table" aria-label="Histórico de chamados">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Assunto</th>
+                        <th scope="col">Categoria</th>
+                        <th scope="col">Prioridade</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Data</th>
+                    </tr>
+                </thead>
+                <tbody id="tickets-body">
+                    <tr>
+                        <td class="ticket-id">#1042</td>
+                        <td class="ticket-title">Erro ao gerar extrato do mês</td>
+                        <td><span class="badge badge-muted">Relatórios</span></td>
+                        <td><span class="priority-dot dot-medium"></span>Média</td>
+                        <td><span class="badge badge-amber"><i class="fa-solid fa-clock" aria-hidden="true"></i>Em
+                                andamento</span></td>
+                        <td class="ticket-date">12/05/2026</td>
+                    </tr>
+                    <tr>
+                        <td class="ticket-id">#1038</td>
+                        <td class="ticket-title">Dúvida sobre lançamento de aporte</td>
+                        <td><span class="badge badge-muted">Plano de Aporte</span></td>
+                        <td><span class="priority-dot dot-low"></span>Baixa</td>
+                        <td><span class="badge badge-green"><i class="fa-solid fa-check"
+                                    aria-hidden="true"></i>Resolvido</span></td>
+                        <td class="ticket-date">03/05/2026</td>
+                    </tr>
+                    <tr>
+                        <td class="ticket-id">#1031</td>
+                        <td class="ticket-title">Não consigo redefinir minha senha</td>
+                        <td><span class="badge badge-muted">Conta &amp; Acesso</span></td>
+                        <td><span class="priority-dot dot-high"></span>Alta</td>
+                        <td><span class="badge badge-green"><i class="fa-solid fa-check"
+                                    aria-hidden="true"></i>Resolvido</span></td>
+                        <td class="ticket-date">21/04/2026</td>
+                    </tr>
+                    <tr>
+                        <td class="ticket-id">#1025</td>
+                        <td class="ticket-title">Pagamento duplicado registrado</td>
+                        <td><span class="badge badge-muted">Pagamentos</span></td>
+                        <td><span class="priority-dot dot-high"></span>Alta</td>
+                        <td><span class="badge badge-blue"><i class="fa-solid fa-magnifying-glass"
+                                    aria-hidden="true"></i>Em análise</span></td>
+                        <td class="ticket-date">10/04/2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
 
-    <!-- MAIN -->
-    <main class="main">
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="greeting">Olá, Usuário 👋</div>
-                <div class="date">Sexta-feira, 1 de maio de 2026</div>
-            </div>
-            <div class="topbar-right">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input placeholder="Pesquisar..." type="text">
+    <section aria-labelledby="contact-title">
+        <h2 class="support-section-title" id="contact-title"><i class="fa-solid fa-phone" aria-hidden="true"></i>Outros
+            canais de atendimento</h2>
+        <div class="contact-grid">
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><i
+                        class="fa-brands fa-whatsapp"></i></span>
+                <div>
+                    <h3>WhatsApp</h3>
+                    <p>Seg–Sex, 8h–18h<br>Resposta em até 2h</p>
                 </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-bell"></i>
-                    <!-- <div class="notif-dot"></div> -->
+            </article>
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><i
+                        class="fa-solid fa-envelope"></i></span>
+                <div>
+                    <h3>E-mail</h3>
+                    <p>suporte@rendemais.com.br<br>Resposta em até 24h</p>
                 </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-gear"></i>
+            </article>
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><i
+                        class="fa-solid fa-book-open"></i></span>
+                <div>
+                    <h3>Base de conhecimento</h3>
+                    <p>Artigos e tutoriais em vídeo disponíveis</p>
                 </div>
-            </div>
-        </header>
-
-        <!-- PAGE CONTENT -->
-        <div class="page">
-
-            <!-- HERO -->
-            <section class="support-hero anim anim-1" aria-label="Central de suporte">
-                <div class="hero-badge">
-                    <i class="fa-solid fa-headset" style="font-size:11px" aria-hidden="true"></i>
-                    Central de Suporte
+            </article>
+            <article class="contact-card"><span class="contact-icon" aria-hidden="true"><i
+                        class="fa-solid fa-robot"></i></span>
+                <div>
+                    <h3>Assistente IA</h3>
+                    <p>Em breve! Chat inteligente 24h por dia</p>
                 </div>
-                <h1>Ajuda e Suporte</h1>
-                <p>Encontre respostas rápidas, abra chamados ou fale com nossa equipe. Estamos aqui para ajudar.</p>
-
-                <div class="hero-search" role="search">
-                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <input type="text" id="faq-search"
-                        placeholder="Pesquise sua dúvida... ex: como lançar uma cobrança?"
-                        aria-label="Pesquisar na base de conhecimento" oninput="filterFaq(this.value)">
-                    <button onclick="filterFaq(document.getElementById('faq-search').value)" aria-label="Buscar">
-                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-                        <span> Buscar</span>
-                    </button>
-                </div>
-            </section>
-
-
-            <!-- CATEGORIAS RÁPIDAS -->
-            <p class="section-title anim anim-2">
-                <i class="fa-solid fa-bolt" style="color:var(--amber);margin-right:6px" aria-hidden="true"></i>
-                Categorias Rápidas
-            </p>
-
-            <div class="categories-grid anim anim-2" role="list">
-                <a class="category-card" href="#faq" onclick="filterFaq('pagamento')" role="listitem">
-                    <div class="cat-icon blue" aria-hidden="true"><i class="fa-solid fa-credit-card"></i></div>
-                    <span>Pagamentos</span>
-                    <small>8 artigos</small>
-                </a>
-                <a class="category-card" href="#faq" onclick="filterFaq('conta')" role="listitem">
-                    <div class="cat-icon green" aria-hidden="true"><i class="fa-solid fa-user-shield"></i></div>
-                    <span>Conta &amp; Acesso</span>
-                    <small>5 artigos</small>
-                </a>
-                <a class="category-card" href="#faq" onclick="filterFaq('relatório')" role="listitem">
-                    <div class="cat-icon purple" aria-hidden="true"><i class="fa-solid fa-chart-bar"></i></div>
-                    <span>Relatórios</span>
-                    <small>6 artigos</small>
-                </a>
-                <a class="category-card" href="#faq" onclick="filterFaq('segurança')" role="listitem">
-                    <div class="cat-icon amber" aria-hidden="true"><i class="fa-solid fa-lock"></i></div>
-                    <span>Segurança</span>
-                    <small>4 artigos</small>
-                </a>
-                <a class="category-card" href="#faq" onclick="filterFaq('aporte')" role="listitem">
-                    <div class="cat-icon red" aria-hidden="true"><i class="fa-solid fa-piggy-bank"></i></div>
-                    <span>Plano de Aporte</span>
-                    <small>3 artigos</small>
-                </a>
-                <a class="category-card" href="#chamado" role="listitem">
-                    <div class="cat-icon slate" aria-hidden="true"><i class="fa-solid fa-ticket"></i></div>
-                    <span>Abrir Chamado</span>
-                    <small>Fale conosco</small>
-                </a>
-            </div>
-
-
-            <!-- FAQ + FORMULÁRIO -->
-            <div class="two-col anim anim-3">
-
-                <!-- FAQ -->
-                <div class="card" id="faq">
-                    <div class="card-header">
-                        <h2>
-                            <i class="fa-solid fa-circle-question" style="color:var(--accent2);margin-right:8px"
-                                aria-hidden="true"></i>
-                            Perguntas Frequentes
-                        </h2>
-                        <span id="faq-count" style="font-size:12px;color:var(--muted)" aria-live="polite"></span>
-                    </div>
-                    <div id="faq-list" role="list"></div>
-                    <div id="faq-empty" class="empty-state" style="display:none" aria-live="polite">
-                        <i class="fa-solid fa-face-meh" aria-hidden="true"></i>
-                        <p>Nenhuma pergunta encontrada para "<span id="empty-term"></span>".<br>Tente outro termo ou
-                            abra um chamado.</p>
-                    </div>
-                </div>
-
-                <!-- FORMULÁRIO DE CHAMADO -->
-                <div class="card" id="chamado">
-                    <div class="card-header">
-                        <h2>
-                            <i class="fa-solid fa-paper-plane" style="color:var(--green);margin-right:8px"
-                                aria-hidden="true"></i>
-                            Abrir Chamado
-                        </h2>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ticket-subject">Assunto</label>
-                            <input type="text" id="ticket-subject" placeholder="Descreva brevemente...">
-                        </div>
-                        <div class="form-group">
-                            <label for="ticket-category">Categoria</label>
-                            <select id="ticket-category">
-                                <option value="">Selecione...</option>
-                                <option>Pagamentos</option>
-                                <option>Conta &amp; Acesso</option>
-                                <option>Relatórios</option>
-                                <option>Segurança</option>
-                                <option>Plano de Aporte</option>
-                                <option>Outro</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="ticket-priority">Prioridade</label>
-                            <select id="ticket-priority">
-                                <option>Baixa</option>
-                                <option selected>Média</option>
-                                <option>Alta</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="ticket-email">E-mail de contato</label>
-                            <input type="email" id="ticket-email" placeholder="seu@email.com">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="ticket-desc">Descrição detalhada</label>
-                        <textarea id="ticket-desc"
-                            placeholder="Descreva o problema com o máximo de detalhes possível..."></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Anexos <span style="font-weight:400;text-transform:none">(opcional)</span></label>
-                        <div class="upload-area" onclick="document.getElementById('file-input').click()" role="button"
-                            tabindex="0" aria-label="Selecionar arquivo para anexar">
-                            <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
-                            Clique para enviar ou arraste arquivos aqui<br>
-                            <span style="font-size:11px;margin-top:4px;display:block">PNG, JPG, PDF — máx. 10 MB</span>
-                            <span id="file-name"
-                                style="font-size:12px;color:var(--accent2);margin-top:4px;display:none"></span>
-                        </div>
-                        <input type="file" id="file-input" style="display:none" accept=".png,.jpg,.jpeg,.pdf"
-                            onchange="showFileName(this)" aria-label="Selecionar arquivo">
-                    </div>
-
-                    <button class="btn-primary" onclick="submitTicket()">
-                        <i class="fa-solid fa-paper-plane" aria-hidden="true"></i>
-                        Enviar Chamado
-                    </button>
-                </div>
-
-            </div><!-- /two-col -->
-
-
-            <!-- HISTÓRICO DE CHAMADOS -->
-            <div class="card anim anim-4" id="tickets-section" style="margin-bottom:2rem">
-                <div class="card-header">
-                    <h2>
-                        <i class="fa-solid fa-clock-rotate-left" style="color:var(--muted);margin-right:8px"
-                            aria-hidden="true"></i>
-                        Meus Chamados
-                    </h2>
-                    <button class="link-btn">
-                        <i class="fa-solid fa-filter" aria-hidden="true"></i>
-                        Filtrar
-                    </button>
-                </div>
-
-                <div class="table-wrapper">
-                    <table class="tickets-table" aria-label="Histórico de chamados">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Assunto</th>
-                                <th scope="col">Categoria</th>
-                                <th scope="col">Prioridade</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Data</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tickets-body">
-                            <tr>
-                                <td class="ticket-id">#1042</td>
-                                <td class="ticket-title">Erro ao gerar extrato do mês</td>
-                                <td><span class="badge badge-muted">Relatórios</span></td>
-                                <td><span class="priority-dot dot-medium"></span>Média</td>
-                                <td><span class="badge badge-amber"><i class="fa-solid fa-clock" style="font-size:9px"
-                                            aria-hidden="true"></i> Em andamento</span></td>
-                                <td class="ticket-date">12/05/2026</td>
-                            </tr>
-                            <tr>
-                                <td class="ticket-id">#1038</td>
-                                <td class="ticket-title">Dúvida sobre lançamento de aporte</td>
-                                <td><span class="badge badge-muted">Plano de Aporte</span></td>
-                                <td><span class="priority-dot dot-low"></span>Baixa</td>
-                                <td><span class="badge badge-green"><i class="fa-solid fa-check" style="font-size:9px"
-                                            aria-hidden="true"></i> Resolvido</span></td>
-                                <td class="ticket-date">03/05/2026</td>
-                            </tr>
-                            <tr>
-                                <td class="ticket-id">#1031</td>
-                                <td class="ticket-title">Não consigo redefinir minha senha</td>
-                                <td><span class="badge badge-muted">Conta &amp; Acesso</span></td>
-                                <td><span class="priority-dot dot-high"></span>Alta</td>
-                                <td><span class="badge badge-green"><i class="fa-solid fa-check" style="font-size:9px"
-                                            aria-hidden="true"></i> Resolvido</span></td>
-                                <td class="ticket-date">21/04/2026</td>
-                            </tr>
-                            <tr>
-                                <td class="ticket-id">#1025</td>
-                                <td class="ticket-title">Pagamento duplicado registrado</td>
-                                <td><span class="badge badge-muted">Pagamentos</span></td>
-                                <td><span class="priority-dot dot-high"></span>Alta</td>
-                                <td><span class="badge badge-blue"><i class="fa-solid fa-magnifying-glass"
-                                            style="font-size:9px" aria-hidden="true"></i> Em análise</span></td>
-                                <td class="ticket-date">10/04/2026</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-
-
-            <!-- CANAIS DE ATENDIMENTO -->
-            <p class="section-title anim anim-5">
-                <i class="fa-solid fa-phone" style="color:var(--green);margin-right:6px" aria-hidden="true"></i>
-                Outros Canais de Atendimento
-            </p>
-
-            <div class="contact-grid anim anim-5">
-                <div class="contact-card">
-                    <div class="contact-icon" style="background:#eff6ff;color:var(--blue)" aria-hidden="true"><i
-                            class="fa-brands fa-whatsapp"></i></div>
-                    <div>
-                        <h3>WhatsApp</h3>
-                        <p>Seg–Sex, 8h–18h<br>Resposta em até 2h</p>
-                    </div>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon" style="background:#f0fdf4;color:var(--green)" aria-hidden="true"><i
-                            class="fa-solid fa-envelope"></i></div>
-                    <div>
-                        <h3>E-mail</h3>
-                        <p>suporte@rendemais.com.br<br>Resposta em até 24h</p>
-                    </div>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon" style="background:#fffbeb;color:var(--amber)" aria-hidden="true"><i
-                            class="fa-solid fa-book-open"></i></div>
-                    <div>
-                        <h3>Base de Conhecimento</h3>
-                        <p>Artigos e tutoriais em vídeo disponíveis</p>
-                    </div>
-                </div>
-                <div class="contact-card">
-                    <div class="contact-icon" style="background:#f5f3ff;color:#7c3aed" aria-hidden="true"><i
-                            class="fa-solid fa-robot"></i></div>
-                    <div>
-                        <h3>Assistente IA</h3>
-                        <p>Em breve! Chat inteligente 24h por dia</p>
-                    </div>
-                </div>
-            </div>
-
-        </div><!-- /page -->
-    </main>
-
-    <script src="{{ url_for('static', filename='js/support.js') }}"></script>
-</body>
-
-</html>
+            </article>
+        </div>
+    </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/support.js') }}"></script>
+{% endblock %}

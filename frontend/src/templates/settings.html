@@ -1,149 +1,77 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalletFlow | Configurações</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
-        rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💹</div>
-            <span class="logo-name">WalletFlow</span>
+{% extends "base.html" %}
+{% set page_id = "settings" %}
+{% block title %}Configurações{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">{% endblock %}
+{% block page_title %}Configurações{% endblock %}
+{% block content %}
+<div class="page-heading">
+    <div>
+        <h2>Preferências da conta</h2>
+        <p>Estruturas de formulário prontas para a integração com o backend.</p>
+    </div>
+</div>
+<section class="grid-2">
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Perfil</h2>
+                <p class="card-sub">Dados de identificação da conta.</p>
+            </div>
         </div>
-
-        <div class="sidebar-user">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="name">Usuário</div>
-                <div class="role">Conta pessoal</div>
+        <form data-form-event="settings:profile">
+            <div class="form-grid">
+                <div class="field"><label for="profile-name">Nome</label><input id="profile-name" name="name"
+                        autocomplete="name"></div>
+                <div class="field"><label for="profile-email">E-mail</label><input id="profile-email" name="email"
+                        type="email" autocomplete="email"></div>
             </div>
-            <i class="fa-solid fa-chevron-down"></i>
+            <div class="form-actions"><button class="button primary" type="submit">Salvar perfil</button></div>
+        </form>
+    </article>
+    <article class="card">
+        <div class="card-header">
+            <div>
+                <h2 class="card-title">Preferências</h2>
+                <p class="card-sub">Opções que podem ser persistidas pela sua API.</p>
+            </div>
         </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu</div>
-
-            <a class="nav-item active" href="/dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                Início
-            </a>
-
-            <a class="nav-item" href="/accounts-receivable">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                Contas a Receber
-            </a>
-
-            <a class="nav-item" href="/accounts-payable">
-                <i class="fa-solid fa-credit-card"></i>
-                Contas a Pagar
-            </a>
-
-            <a class="nav-item" href="/investment-plans">
-                <i class="fa-solid fa-chart-line"></i>
-                Plano de Aporte
-            </a>
-
-            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
-
-            <a class="nav-item" href="/statements">
-                <i class="fa-solid fa-receipt"></i>
-                Extrato
-            </a>
-
-            <a class="nav-item" href="/transactions">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Histórico
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="/support">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Ajuda e Suporte
-            </a>
-            <a class="nav-item" href="/settings">
-                <i class="fa-solid fa-gear"></i>
-                Configurações
-            </a>
+        <form data-form-event="settings:preferences" class="settings-list"><label class="setting-row"><span
+                    class="setting-copy"><strong>Notificações por e-mail</strong><span>Receba avisos sobre lançamentos e
+                        vencimentos.</span></span><input class="toggle" type="checkbox"
+                    name="email_notifications"></label><label class="setting-row"><span
+                    class="setting-copy"><strong>Resumo mensal</strong><span>Receba um resumo do período quando
+                        disponível.</span></span><input class="toggle" type="checkbox"
+                    name="monthly_summary"></label><label class="setting-row"><span class="setting-copy"><strong>Modo
+                        compacto</strong><span>Preferência visual para a sua interface.</span></span><input
+                    class="toggle" type="checkbox" name="compact_mode"></label>
+            <div class="form-actions"><button class="button primary" type="submit">Salvar preferências</button></div>
+        </form>
+    </article>
+</section>
+<section class="card">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Exportar dados do dashboard</h2>
+            <p class="card-sub">Selecione o período e envie a solicitação de exportação para sua rota.</p>
         </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="greeting">Olá, Usuário 👋</div>
-                <div class="date">Sexta-feira, 1 de maio de 2026</div>
-            </div>
-            <div class="topbar-right">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input placeholder="Pesquisar..." type="text">
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-bell"></i>
-                    <!-- <div class="notif-dot"></div> -->
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- PAGE CONTENT -->
-        <div class="page">
-            <!-- <h1>Plano de Aporte</h1> -->
-            <!-- ===== COMPONENTE EM CONSTRUÇÃO ===== -->
-            <div class="wip-wrapper">
-                <div class="wip-card">
-
-                    <div class="wip-icon-wrap">
-                        <i class="fa-solid fa-helmet-safety"></i>
-                        <div class="wip-gear-orbit">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-                    </div>
-
-                    <div class="wip-badge">
-                        <i class="fa-solid fa-circle fa-beat" style="font-size:8px;"></i>
-                        Em desenvolvimento
-                    </div>
-
-                    <h2 class="wip-title">Página em construção</h2>
-
-                    <p class="wip-description">
-                        Nossa equipe está trabalhando para entregar esta funcionalidade em breve.
-                        Assim que estiver pronta, você será notificado.
-                    </p>
-
-                    <a href="/dashboard" class="wip-btn">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Voltar ao Início
-                    </a>
-
-                    <div class="wip-footer">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        Seus dados estão seguros e protegidos
-                    </div>
-
-                </div>
-            </div>
-            <!-- ===== /COMPONENTE EM CONSTRUÇÃO ===== -->
-
-        </div><!-- /page -->
-    </main>
-
-    <script src="{{ url_for('static', filename='js/settings.js') }}"></script>
-</body>
-
-</html>
+    </div>
+    <form data-form-event="settings:export-dashboard">
+        <div class="form-grid">
+            <div class="field"><label for="export-start">Data inicial</label><input id="export-start" name="start_date"
+                    type="date"></div>
+            <div class="field"><label for="export-end">Data final</label><input id="export-end" name="end_date"
+                    type="date"></div>
+            <div class="field full"><label for="export-scope">Conteúdo</label><select id="export-scope" name="scope">
+                    <option value="dashboard">Resumo do dashboard</option>
+                    <option value="dashboard-and-transactions">Dashboard e transações</option>
+                </select></div>
+        </div>
+        <div class="form-actions"><button class="button" type="button" data-export-format="xlsx"><i
+                    class="fa-solid fa-file-excel"></i>Exportar XLSX</button><button class="button primary"
+                type="button" data-export-format="pdf"><i class="fa-solid fa-file-pdf"></i>Exportar PDF</button></div>
+    </form>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>{% endblock %}

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WalletFlow | {% block title %}{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/app.css') }}">
+    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
+    {% block head %}{% endblock %}
+</head>
+
+<body data-page="{{ page_id }}">
+    <button class="mobile-menu" id="menu-toggle" aria-label="Abrir menu"><i class="fa-solid fa-bars"></i></button>
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+    <aside class="sidebar" id="sidebar">
+        <a class="sidebar-logo" href="/dashboard" aria-label="WalletFlow, ir para o início">
+            <span class="logo-icon"><i class="fa-solid fa-wallet"></i></span><span class="logo-name">WalletFlow</span>
+        </a>
+        <div class="sidebar-user" aria-label="Área de perfil">
+            <span class="avatar"><i class="fa-solid fa-user"></i></span>
+            <span class="user-info"><span class="name">Perfil</span><span class="role">Dados da conta</span></span>
+        </div>
+        <nav class="sidebar-nav" aria-label="Navegação principal">
+            <span class="nav-section-label">Visão geral</span>
+            <a class="nav-item" data-nav="dashboard" href="/dashboard"><i class="fa-solid fa-gauge-high"></i>Início</a>
+            <a class="nav-item" data-nav="accounts-receivable" href="/accounts-receivable"><i
+                    class="fa-solid fa-file-invoice-dollar"></i>Contas a Receber</a>
+            <a class="nav-item" data-nav="accounts-payable" href="/accounts-payable"><i
+                    class="fa-solid fa-credit-card"></i>Contas a Pagar</a>
+            <a class="nav-item" data-nav="investment-plans" href="/investment-plans"><i
+                    class="fa-solid fa-chart-line"></i>Plano de Aporte</a>
+            <span class="nav-section-label">Relatórios</span>
+            <a class="nav-item" data-nav="statements" href="/statements"><i class="fa-solid fa-receipt"></i>Extrato</a>
+            <a class="nav-item" data-nav="transactions" href="/transactions"><i
+                    class="fa-solid fa-clock-rotate-left"></i>Histórico</a>
+        </nav>
+        <div class="sidebar-bottom">
+            <a class="nav-item" data-nav="support" href="/support"><i class="fa-solid fa-life-ring"></i>Ajuda e
+                Suporte</a>
+            <a class="nav-item" data-nav="settings" href="/settings"><i class="fa-solid fa-gear"></i>Configurações</a>
+        </div>
+    </aside>
+    <main class="main">
+        <header class="topbar">
+            <div>
+                <h1>{% block page_title %}{% endblock %}</h1>
+                <p id="topbar-date" class="topbar-date"></p>
+            </div>
+            <div class="topbar-actions">
+                <form class="topbar-search" data-form-event="global:search" role="search">
+                    <label class="sr-only" for="topbar-search-input">Pesquisar</label>
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input id="topbar-search-input" name="query" type="search" placeholder="Pesquisar...">
+                </form>
+                <div class="notifications">
+                    <button class="icon-button" id="notifications-trigger" type="button" aria-label="Notificações"
+                        aria-expanded="false" aria-controls="notifications-panel"><i class="fa-solid fa-bell"></i><span
+                            class="notification-dot" hidden></span></button>
+                    <div class="notifications-panel" id="notifications-panel" hidden>
+                        <strong>Notificações</strong>
+                        <p>Nenhuma notificação carregada.</p>
+                    </div>
+                </div>
+                {% block page_action %}{% endblock %}
+                <a class="icon-button" href="/settings" aria-label="Configurações"><i class="fa-solid fa-gear"></i></a>
+            </div>
+        </header>
+        <div class="page">{% block content %}{% endblock %}</div>
+    </main>
+    <div class="toast" id="app-toast" role="status" aria-live="polite"></div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+
+</html>

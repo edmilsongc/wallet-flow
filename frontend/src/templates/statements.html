@@ -1,148 +1,47 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WalletFlow | Extrato</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/statements.css') }}">
-    <link
-        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=Playfair+Display:wght@600&display=swap"
-        rel="stylesheet">
-    <script src="https://kit.fontawesome.com/e938297d46.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <div class="logo-icon">💹</div>
-            <span class="logo-name">WalletFlow</span>
+{% extends "base.html" %}
+{% set page_id = "statements" %}
+{% block title %}Extrato{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/statements.css') }}">{% endblock %}
+{% block page_title %}Extrato{% endblock %}
+{% block content %}
+<section class="card">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Gerar extrato</h2>
+            <p class="card-sub">Defina os filtros que serão enviados para sua API.</p>
         </div>
-
-        <div class="sidebar-user">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="name">Usuário</div>
-                <div class="role">Conta pessoal</div>
-            </div>
-            <i class="fa-solid fa-chevron-down"></i>
+    </div>
+    <form data-form-event="statements:generate">
+        <div class="form-grid">
+            <div class="field"><label for="statement-start">Data inicial</label><input id="statement-start"
+                    name="start_date" type="date"></div>
+            <div class="field"><label for="statement-end">Data final</label><input id="statement-end" name="end_date"
+                    type="date"></div>
+            <div class="field"><label for="statement-type">Tipo de movimentação</label><select id="statement-type"
+                    name="transaction_type">
+                    <option value="all">Todas</option>
+                    <option value="income">Entradas</option>
+                    <option value="expense">Saídas</option>
+                </select></div>
+            <div class="field"><label for="statement-category">Categoria</label><input id="statement-category"
+                    name="category"></div>
         </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-section-label">Menu</div>
-
-            <a class="nav-item active" href="/dashboard">
-                <i class="fa-solid fa-gauge-high"></i>
-                Início
-            </a>
-
-            <a class="nav-item" href="/accounts-receivable">
-                <i class="fa-solid fa-file-invoice-dollar"></i>
-                Contas a Receber
-            </a>
-
-            <a class="nav-item" href="/accounts-payable">
-                <i class="fa-solid fa-credit-card"></i>
-                Contas a Pagar
-            </a>
-
-            <a class="nav-item" href="/investment-plans">
-                <i class="fa-solid fa-chart-line"></i>
-                Plano de Aporte
-            </a>
-
-            <div class="nav-section-label" style="margin-top:0.5rem">Relatórios</div>
-
-            <a class="nav-item" href="/statements">
-                <i class="fa-solid fa-receipt"></i>
-                Extrato
-            </a>
-
-            <a class="nav-item" href="/transactions">
-                <i class="fa-solid fa-clock-rotate-left"></i>
-                Histórico
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a class="nav-item" href="/support">
-                <i class="fa-solid fa-triangle-exclamation"></i>
-                Ajuda e Suporte
-            </a>
-            <a class="nav-item" href="/settings">
-                <i class="fa-solid fa-gear"></i>
-                Configurações
-            </a>
+        <div class="form-actions"><button class="button primary" type="submit"><i class="fa-solid fa-filter"></i>Gerar
+                extrato</button></div>
+    </form>
+</section>
+<section class="card" style="margin-top:16px">
+    <div class="card-header">
+        <div>
+            <h2 class="card-title">Resultado</h2>
+            <p class="card-sub">Os registros retornados pela API aparecerão aqui.</p>
         </div>
-    </aside>
-
-    <!-- MAIN -->
-    <main class="main">
-        <!-- TOPBAR -->
-        <header class="topbar">
-            <div class="topbar-left">
-                <div class="greeting">Olá, Usuário 👋</div>
-                <div class="date">Sexta-feira, 1 de maio de 2026</div>
-            </div>
-            <div class="topbar-right">
-                <div class="search-box">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input placeholder="Pesquisar..." type="text">
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-bell"></i>
-                    <!-- <div class="notif-dot"></div> -->
-                </div>
-                <div class="icon-btn">
-                    <i class="fa-solid fa-gear"></i>
-                </div>
-            </div>
-        </header>
-
-        <!-- PAGE CONTENT -->
-        <div class="page">
-            <!-- <h1>Extrato</h1> -->
-            <!-- ===== COMPONENTE EM CONSTRUÇÃO ===== -->
-            <div class="wip-wrapper">
-                <div class="wip-card">
-
-                    <div class="wip-icon-wrap">
-                        <i class="fa-solid fa-helmet-safety"></i>
-                        <div class="wip-gear-orbit">
-                            <i class="fa-solid fa-gear"></i>
-                        </div>
-                    </div>
-
-                    <div class="wip-badge">
-                        <i class="fa-solid fa-circle fa-beat" style="font-size:8px;"></i>
-                        Em desenvolvimento
-                    </div>
-
-                    <h2 class="wip-title">Página em construção</h2>
-
-                    <p class="wip-description">
-                        Nossa equipe está trabalhando para entregar esta funcionalidade em breve.
-                        Assim que estiver pronta, você será notificado.
-                    </p>
-
-                    <a href="/dashboard" class="wip-btn">
-                        <i class="fa-solid fa-arrow-left"></i>
-                        Voltar ao Início
-                    </a>
-
-                    <div class="wip-footer">
-                        <i class="fa-solid fa-shield-halved"></i>
-                        Seus dados estão seguros e protegidos
-                    </div>
-
-                </div>
-            </div>
-            <!-- ===== /COMPONENTE EM CONSTRUÇÃO ===== -->
-        </div><!-- /page -->
-    </main>
-
-    <script src="{{ url_for('static', filename='js/statements.js') }}"></script>
-</body>
-
-</html>
+    </div>
+    <div class="empty-state"><i class="fa-solid fa-receipt"></i>
+        <p>Nenhum extrato carregado.</p><small>Preencha os filtros e conecte a ação à sua rota.</small>
+    </div>
+</section>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/statements.js') }}"></script>{% endblock %}
