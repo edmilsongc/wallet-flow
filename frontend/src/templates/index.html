@@ -10,6 +10,7 @@
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:wght@600&display=swap"
         rel="stylesheet">
     <title>WalletFlow | Gestão financeira</title>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
 </head>
 
@@ -84,9 +85,7 @@
                                 <strong>Evolução patrimonial</strong>
                                 <span>Fluxo de caixa mensal</span>
                             </div>
-                            <div class="chart-grid" aria-hidden="true">
-                                <span></span><span></span><span></span><span></span></div>
-                            <div class="chart-line" aria-hidden="true"></div>
+                            <div id="chart"></div>
                         </div>
                     </div>
                 </div>
@@ -262,6 +261,7 @@
             <nav aria-label="Links legais"><a href="#">Termos</a><a href="#">Privacidade</a></nav>
         </div>
     </footer>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 </body>
 
 </html>
