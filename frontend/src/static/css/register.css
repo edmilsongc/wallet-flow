@@ -1,2 +1,472 @@
-/* Cadastro usa o mesmo card de autenticação, em arquivo próprio para evoluções futuras. */
-@import url('login.css');
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+}
+
+.auth-page {
+    align-items: center;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 24px;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.auth-card {
+    background: var(--surface, #ffffff);
+    border-radius: 10px;
+    box-shadow: var(--shadow, 0 30px 60px -30px rgba(20, 19, 31, .28));
+    width: 880px;
+    max-width: 100%;
+    display: flex;
+    overflow: hidden;
+}
+
+/* Painel esquerdo: imagem / preview do produto */
+.auth-visual {
+    flex: 0 0 380px;
+    background: #15803d;
+    background-image: linear-gradient(160deg, #16a34a 0%, #14532d 100%);
+    color: #fff;
+    padding: 36px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 18px;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-visual::before,
+.auth-visual::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, .12);
+}
+
+.auth-visual::before {
+    width: 340px;
+    height: 340px;
+    top: -140px;
+    right: -120px;
+}
+
+.auth-visual::after {
+    width: 220px;
+    height: 220px;
+    bottom: -100px;
+    left: -80px;
+}
+
+.visual-headline {
+    position: relative;
+    font: 700 25px/1.3 'DM Sans', sans-serif;
+    margin: 0;
+}
+
+.visual-sub {
+    position: relative;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, .82);
+    margin: 0;
+    max-width: 300px;
+}
+
+.dash-wrap {
+    position: relative;
+    margin-top: 6px;
+}
+
+.dash {
+    background: #fff;
+    border-radius: 14px;
+    padding: 14px;
+    box-shadow: 0 20px 40px -18px rgba(0, 0, 0, .45);
+    position: relative;
+}
+
+.dash-top-row {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.stat-card {
+    flex: 1;
+    border-radius: 10px;
+    padding: 9px 10px;
+    border: 1px solid var(--border, #eceef2);
+}
+
+.stat-card.highlight {
+    background: #14532d;
+    border: none;
+    color: #fff;
+}
+
+.stat-card .label {
+    font-size: 9px;
+    color: var(--muted, #9096a2);
+    margin-bottom: 3px;
+}
+
+.stat-card.highlight .label {
+    color: rgba(255, 255, 255, .75);
+}
+
+.stat-card .value {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text, #14131f);
+}
+
+.stat-card.highlight .value {
+    color: #fff;
+}
+
+.stat-card .delta {
+    font-size: 8.5px;
+    color: #16a34a;
+    margin-top: 3px;
+}
+
+.chart-card {
+    border: 1px solid var(--border, #eceef2);
+    border-radius: 10px;
+    padding: 10px 10px 4px;
+    margin-bottom: 8px;
+}
+
+.chart-card .title {
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text, #14131f);
+}
+
+.chart-card .sub {
+    font-size: 9px;
+    color: var(--muted, #9096a2);
+    margin-bottom: 4px;
+}
+
+.tx-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.tx-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 10px;
+}
+
+.tx-row .name {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--text, #14131f);
+    font-weight: 600;
+}
+
+.tx-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #16a34a;
+}
+
+.tx-row .amount {
+    color: var(--muted, #9096a2);
+}
+
+.dash-float {
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    width: 128px;
+    background: #fff;
+    border-radius: 12px;
+    padding: 10px;
+    box-shadow: 0 16px 30px -14px rgba(0, 0, 0, .4);
+}
+
+.dash-float .donut {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    margin: 0 auto 6px;
+    background: conic-gradient(#16a34a 0% 62%, #86efac 62% 88%, #dcfce7 88% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.dash-float .donut span {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #fff;
+}
+
+.dash-float .caption {
+    text-align: center;
+    font-size: 8.5px;
+    color: var(--muted, #9096a2);
+}
+
+.dash-float .caption b {
+    display: block;
+    font-size: 10.5px;
+    color: var(--text, #14131f);
+}
+
+/* Painel direito (form) */
+.auth-form-panel {
+    flex: 1 1 auto;
+    padding: 36px 44px;
+    width: 100%;
+}
+
+.auth-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 24px;
+    text-decoration: none;
+}
+
+.auth-brand .logo-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 9px;
+    background: #14131f;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #22c55e;
+    font-size: 13px;
+}
+
+.auth-brand .logo-name {
+    font: 700 17px 'DM Sans', sans-serif;
+    color: var(--text, #14131f);
+}
+
+.auth-card h1 {
+    font: 700 26px 'DM Sans', sans-serif;
+    color: var(--text, #14131f);
+    margin: 0 0 6px;
+}
+
+.auth-card p.auth-subtitle {
+    color: var(--muted, #6b7280);
+    font-size: 14px;
+    margin: 0 0 22px;
+}
+
+#form-register {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+#form-register ::placeholder {
+    font-family: inherit;
+    color: #b7bac4;
+}
+
+.form-row {
+    display: flex;
+    gap: 14px;
+}
+
+.form-row .flex-column {
+    flex: 1;
+    min-width: 0;
+}
+
+.flex-column {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.flex-column label {
+    color: var(--text, #14131f);
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.inputForm {
+    border: 1.5px solid var(--border, #e3e5ea);
+    border-radius: 10px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    transition: 0.2s ease-in-out;
+}
+
+.inputForm:focus-within {
+    border: 1.5px solid var(--primary, #16a34a);
+    box-shadow: 0 0 0 3px rgba(22, 163, 74, .1);
+}
+
+.input {
+    padding: 0 16px;
+    border-radius: 10px;
+    border: none;
+    width: 100%;
+    height: 100%;
+    font-size: 14px;
+    background: transparent;
+    color: var(--text, #14131f);
+}
+
+.input:focus {
+    outline: none;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+}
+
+.remember {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.remember input[type="checkbox"] {
+    width: 15px;
+    height: 15px;
+    accent-color: var(--primary, #16a34a);
+}
+
+.remember label {
+    font-size: 13px;
+    color: var(--text, #14131f);
+    font-weight: 400;
+}
+
+.span {
+    font-size: 13px;
+    color: var(--primary, #16a34a);
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.span:hover {
+    text-decoration: underline;
+}
+
+.form-actions {
+    margin-top: 4px;
+}
+
+.button-submit {
+    background: var(--primary, #16a34a);
+    border: none;
+    color: #fff;
+    font-size: 14.5px;
+    font-weight: 600;
+    border-radius: 10px;
+    height: 46px;
+    width: 100%;
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.button-submit:hover {
+    opacity: 0.9;
+}
+
+.p,
+.auth-footer {
+    text-align: center;
+    color: var(--muted, #6b7280);
+    font-size: 13.5px;
+    margin: 14px 0 0;
+}
+
+.p .span,
+.auth-footer a {
+    color: var(--primary, #16a34a);
+    font-weight: 600;
+}
+
+.p.line {
+    position: relative;
+    color: var(--muted, #9096a2);
+    font-size: 12.5px;
+    margin: 18px 0 14px;
+}
+
+.p.line::before,
+.p.line::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 34%;
+    height: 1px;
+    background: var(--border, #e3e5ea);
+}
+
+.p.line::before {
+    left: 0;
+}
+
+.p.line::after {
+    right: 0;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    width: 100%;
+    height: 42px;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 7px;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: var(--text, #14131f);
+    background-color: #fff;
+    border: 1.5px solid var(--border, #e3e5ea);
+    cursor: pointer;
+    transition: 0.2s ease-in-out;
+}
+
+.btn:hover {
+    border-color: var(--primary, #16a34a);
+}
+
+@media (max-width: 760px) {
+    .auth-card {
+        flex-direction: column;
+    }
+
+    .auth-visual {
+        flex-basis: auto;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+}
