@@ -6,8 +6,7 @@
     --text: #212121;
     --muted: #6e6e78;
     --border: #d9d9dd;
-    --blue: #1863dc;
-    --purple: #281735;
+    --green: #16a34a;
     --radius-card: 22px;
     --radius-small: 8px;
     --content-width: 1180px;
@@ -100,7 +99,7 @@ a {
 
 .nav-links a:hover,
 .button-ghost:hover {
-    color: var(--blue);
+    color: var(--green);
 }
 
 .nav-actions {
@@ -131,8 +130,8 @@ a {
 }
 
 .button-dark:hover {
-    background: var(--blue);
-    border-color: var(--blue);
+    background: var(--green);
+    border-color: var(--green);
 }
 
 .button-large {
@@ -445,7 +444,7 @@ h1 {
 }
 
 .feature-card:hover {
-    border-color: var(--blue);
+    border-color: var(--green);
 }
 
 .feature-icon {
@@ -477,7 +476,7 @@ h1 {
 }
 
 .proof-band {
-    background: var(--purple);
+    background: var(--green);
     color: #fff;
     padding: 100px 0;
 }
@@ -652,7 +651,7 @@ h1 {
 }
 
 .footer-content nav a:hover {
-    color: var(--blue);
+    color: var(--green);
 }
 
 @media (max-width: 920px) {

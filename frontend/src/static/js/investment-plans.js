@@ -1,14 +1,18 @@
-/*
- * investment-plans.html
- * O formulário de modal possui data-form-event="investment-plans:create".
- * O objeto detail.values contém name, target_amount, contribution_amount,
- * start_date e notes; envie-o para a rota de planos que preferir.
- */
-'use strict';
+var options = {
+    chart: {
+        type: 'area',
+        with: 100,
+        height: 200,
+        toolbar: {
+            show: false
+        }
+    },
 
-document.addEventListener('walletflow:form-submit', event => {
-    if (event.detail.name !== 'investment-plans:create') return;
-    document.dispatchEvent(new CustomEvent('walletflow:investment-plan:ready', {
-        detail: event.detail
-    }));
-});
+    colors: ['#22c55e'],
+
+    series: [{ name: 'Revenue', data: [1, 2, 2, 0, 4, 5, 9, 3, 4, 1, 3, 4] }],
+    xaxis: { categories: ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"] }
+}
+
+var chart = new window.ApexCharts(document.querySelector('#chart-column'), options)
+chart.render()

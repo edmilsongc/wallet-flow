@@ -144,3 +144,18 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 window.WalletFlowUI = { showToast };
+
+const dataUser = async () => {
+    const response = await fetch(
+        "http://127.0.0.1:5000/api/dashboard",
+        {
+            method: "GET",
+            credentials: "include"
+        }
+    );
+
+    const data = await response.json();
+
+    document.querySelector("#perfilUser").innerHTML = data["user"];
+}
+dataUser();

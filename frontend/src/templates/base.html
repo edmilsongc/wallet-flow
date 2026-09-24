@@ -7,6 +7,7 @@
     <title>WalletFlow | {% block title %}{% endblock %}</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
     <link
         href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600&display=swap"
         rel="stylesheet">
@@ -20,11 +21,19 @@
     <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <aside class="sidebar" id="sidebar">
         <a class="sidebar-logo" href="/dashboard" aria-label="WalletFlow, ir para o início">
-            <span class="logo-icon"><i class="fa-solid fa-wallet"></i></span><span class="logo-name">WalletFlow</span>
+            <span class="logo-icon">
+                <i class="fa-solid fa-wallet"></i>
+            </span>
+            <span class="logo-name">WalletFlow</span>
         </a>
         <div class="sidebar-user" aria-label="Área de perfil">
-            <span class="avatar"><i class="fa-solid fa-user"></i></span>
-            <span class="user-info"><span class="name">Perfil</span><span class="role">Dados da conta</span></span>
+            <span class="avatar">
+                <i class="fa-solid fa-user"></i>
+            </span>
+            <span class="user-info">
+                <span id="perfilUser" class="name">Perfil</span>
+                <span class="role">Dados da conta</span>
+            </span>
         </div>
         <nav class="sidebar-nav" aria-label="Navegação principal">
             <span class="nav-section-label">Visão geral</span>

@@ -5,9 +5,9 @@ form.addEventListener("submit", async (event) => {
     const name = form.elements["name"].value.trim();
     const email = form.elements["email"].value.trim();
     const password = form.elements["password"].value.trim();
-    const confirm_password = form.elements["password_confirmation"].value.trim();
+    const password_confirm = form.elements["password_confirm"].value.trim();
 
-    if (password !== confirm_password) {
+    if (password !== password_confirm) {
         alert("As senhas não coincidem.")
         return;
     }

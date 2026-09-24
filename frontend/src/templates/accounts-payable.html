@@ -8,18 +8,37 @@
         class="fa-solid fa-plus"></i>Nova conta</button>{% endblock %}
 {% block content %}
 <section class="metrics-grid" aria-label="Resumo de contas a pagar">
-    <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-file-invoice"></i></span><span
-            class="metric-label">Total a pagar</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card green"><span class="metric-icon"><i class="fa-solid fa-circle-check"></i></span><span
-            class="metric-label">Pago no mês</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card amber"><span class="metric-icon"><i class="fa-solid fa-clock"></i></span><span
-            class="metric-label">Pendente</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card red"><span class="metric-icon"><i
-                class="fa-solid fa-triangle-exclamation"></i></span><span class="metric-label">Vencido</span><strong
-            class="metric-value">—</strong><span class="metric-hint">Aguardando dados</span></article>
+    <article class="metric-card">
+        <span class="metric-icon">
+            <i class="fa-solid fa-file-invoice"></i>
+        </span>
+        <span class="metric-label">Total a pagar</span>
+        <strong id="total-pagar" class="metric-value">0</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+    <article class="metric-card green">
+        <span class="metric-icon">
+            <i class="fa-solid fa-circle-check"></i>
+        </span>
+        <span class="metric-label">Pago no mês</span>
+        <strong id="total-pago" class="metric-value">0</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+    <article class="metric-card amber">
+        <span class="metric-icon">
+            <i class="fa-solid fa-clock"></i>
+        </span>
+        <span class="metric-label">Pendente</span>
+        <strong id="total-pendente" class="metric-value">0</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+    <article class="metric-card red">
+        <span class="metric-icon">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+        </span><span class="metric-label">Vencido</span>
+        <strong id="total-atrasado" class="metric-value">0</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
 </section>
 <section class="grid-2-1">
     <article class="card">
@@ -28,11 +47,16 @@
                 <h2 class="card-title">Pagamentos por período</h2>
                 <p class="card-sub">Área reservada para o gráfico da API.</p>
             </div>
-            <div class="segment-control" data-tabs><button type="button" data-tab="3">3M</button><button type="button"
-                    data-tab="6" class="active">6M</button><button type="button" data-tab="12">12M</button></div>
+            <div class="segment-control" data-tabs>
+                <button type="button" data-tab="3">3M</button>
+                <button type="button" data-tab="6" class="active">6M</button>
+                <button type="button" data-tab="12">12M</button>
+            </div>
         </div>
-        <div class="chart-placeholder"><i class="fa-solid fa-chart-column"></i>
-            <p>Sem dados para exibir</p>
+        <div class="chart-placeholder">
+            <!-- <i class="fa-solid fa-chart-column"></i>
+            <p>Sem dados para exibir</p> -->
+            <div id="chart-column" style="width: 100%; height: 100%; padding: 10px;"></div>
         </div>
     </article>
     <article class="card">
@@ -42,8 +66,10 @@
                 <p class="card-sub">Distribuição das despesas</p>
             </div>
         </div>
-        <div class="chart-placeholder"><i class="fa-solid fa-chart-pie"></i>
-            <p>Sem dados para exibir</p>
+        <div class="chart-placeholder">
+            <!-- <i class="fa-solid fa-chart-pie"></i>
+            <p>Sem dados para exibir</p> -->
+            <div id="chart-pie" style="width: 100%; height: 100%; padding: 10px;"></div>
         </div>
     </article>
 </section>
@@ -51,44 +77,105 @@
     <div class="card-header">
         <div>
             <h2 class="card-title">Lista de contas</h2>
-            <p class="card-sub">Os pagamentos recebidos pela sua API serão renderizados nesta tabela.</p>
+            <!-- <p class="card-sub">Os pagamentos recebidos pela sua API serão renderizados nesta tabela.</p> -->
         </div>
-        <div class="filters"><input class="filter-input" type="search" name="search" placeholder="Buscar conta"
-                aria-label="Buscar conta">
-            <div class="segment-control" data-tabs><button type="button" data-tab="all"
-                    class="active">Todos</button><button type="button" data-tab="pending">Pendentes</button><button
-                    type="button" data-tab="paid">Pagos</button></div>
+        <div class="filters">
+            <div class="segment-control" data-tabs>
+                <button type="button" data-tab="all" class="active">Todos</button>
+                <button type="button" data-tab="pending">Pendentes</button>
+                <button type="button" data-tab="paid">Pagos</button>
+            </div>
+            <div>
+                <input class="filter-input" type="search" name="search" placeholder="Buscar conta"
+                    aria-label="Buscar conta">
+            </div>
         </div>
     </div>
-    <div class="empty-state"><i class="fa-solid fa-inbox"></i>
-        <p>Nenhuma conta a pagar carregada.</p><small>Use “Nova conta” para abrir o formulário ou conecte sua API a esta
-            área.</small>
+    <div class="cardData-header">
+        <div>Descrição</div>
+        <div>Fornecedor</div>
+        <div>Categoria</div>
+        <div>Valor</div>
+        <div>Vencimento</div>
+        <div>Forma de Pagamento</div>
+        <div>Observação</div>
+    </div>
+    <div class="empty-state">
+        <!-- <i class="fa-solid fa-inbox"></i>
+        <p>Nenhuma conta a pagar carregada.</p>
+        <small>Use “Nova conta” para abrir o formulário ou conecte sua API a esta área.</small> -->
+        <div id="dataUser"></div>
     </div>
 </section>
 <div class="modal-overlay" id="payable-modal">
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="payable-title">
-        <header class="modal-header"><strong class="modal-title" id="payable-title">Nova conta a pagar</strong><button
-                type="button" class="icon-button" data-modal-close aria-label="Fechar"><i
-                    class="fa-solid fa-xmark"></i></button></header>
-        <form data-form-event="accounts-payable:create">
+        <header class="modal-header">
+            <strong class="modal-title" id="payable-title">Nova conta a pagar</strong>
+            <button type="button" class="icon-button" data-modal-close aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </header>
+        <form id="formAccountsPayable" data-form-event="accounts-payable:create">
             <div class="form-grid">
-                <div class="field"><label for="payable-description">Descrição</label><input id="payable-description"
-                        name="description" required></div>
-                <div class="field"><label for="payable-supplier">Fornecedor</label><input id="payable-supplier"
-                        name="supplier"></div>
-                <div class="field"><label for="payable-category">Categoria</label><input id="payable-category"
-                        name="category" required></div>
-                <div class="field"><label for="payable-amount">Valor</label><input id="payable-amount" name="amount"
-                        inputmode="decimal" required></div>
-                <div class="field"><label for="payable-due-date">Vencimento</label><input id="payable-due-date"
-                        name="due_date" type="date" required></div>
-                <div class="field"><label for="payable-method">Forma de pagamento</label><input id="payable-method"
-                        name="payment_method"></div>
-                <div class="field full"><label for="payable-notes">Observações</label><textarea id="payable-notes"
-                        name="notes"></textarea></div>
+                <div class="field">
+                    <label for="payable-description">Descrição</label>
+                    <input id="payable-description" name="description" required>
+                </div>
+                <div class="field">
+                    <label for="payable-supplier">Fornecedor</label>
+                    <input id="payable-supplier" name="payable_supplier">
+                </div>
+                <div class="field">
+                    <label for="payable-category">Categoria</label>
+
+                    <select id="receivable-category" name="category" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Internet">Internet</option>
+                        <option value="Aluguel">Aluguel</option>
+                        <option value="Contas">Contas</option>
+                        <option value="Conta de luz">Conta de luz</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="payable-amount">Valor</label>
+                    <input id="payable-amount" name="amount" inputmode="decimal" required>
+                </div>
+                <div class="field">
+                    <label for="payable-due-date">Vencimento</label>
+                    <input id="payable-due-date" name="due_date" type="date" required>
+                </div>
+
+                <div class="field">
+                    <label for="receivable-status">Status</label>
+                    <select id="receivable-status" name="status">
+                        <option value="Pendente">Pendente</option>
+                        <option value="Pago">Pago</option>
+                        <option value="Atrasado">Atrasado</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="payable-method">Forma de pagamento</label>
+
+                    <select id="receivable-category" name="payable_method" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="Pix">Pix</option>
+                        <option value="Cartão">Cartão</option>
+                        <option value="Boleto">Boleto</option>
+                        <option value="Outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="field full">
+                    <label for="payable-notes">Observações</label>
+                    <textarea id="payable-notes" name="notes"></textarea>
+                </div>
             </div>
-            <div class="form-actions"><button type="button" class="button" data-modal-close>Cancelar</button><button
-                    class="button primary" type="submit">Salvar conta</button></div>
+            <div class="form-actions">
+                <button type="button" class="button" data-modal-close>Cancelar</button>
+                <button class="button primary" data-modal-close type="submit">Salvar conta</button>
+            </div>
         </form>
     </section>
 </div>

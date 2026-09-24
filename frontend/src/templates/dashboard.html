@@ -26,13 +26,18 @@
         <div class="card-header">
             <div>
                 <h2 class="card-title">Fluxo de caixa</h2>
-                <p class="card-sub">O gráfico será preenchido pelos dados da sua API.</p>
+                <!-- <p class="card-sub">O gráfico será preenchido pelos dados da sua API.</p> -->
             </div>
-            <div class="segment-control" data-tabs><button type="button" data-tab="3">3M</button><button type="button"
-                    data-tab="6" class="active">6M</button><button type="button" data-tab="12">12M</button></div>
+            <div class="segment-control" data-tabs>
+                <button type="button" data-tab="3">3M</button>
+                <button type="button" data-tab="6" class="active">6M</button>
+                <button type="button" data-tab="12">12M</button>
+            </div>
         </div>
-        <div class="chart-placeholder" data-dashboard-chart="cash-flow"><i class="fa-solid fa-chart-area"></i>
-            <p>Sem dados para exibir</p>
+        <div class="chart-placeholder" data-dashboard-chart="cash-flow">
+            <!-- <i class="fa-solid fa-chart-area"></i>
+            <p>Sem dados para exibir</p> -->
+            <div id="chart-column" style="width: 100%; height: 100%; padding: 10px;"></div>
         </div>
     </article>
     <article class="card">
@@ -42,8 +47,10 @@
                 <p class="card-sub">Por categoria</p>
             </div>
         </div>
-        <div class="chart-placeholder" data-dashboard-chart="distribution"><i class="fa-solid fa-chart-pie"></i>
-            <p>Sem dados para exibir</p>
+        <div class="chart-placeholder" data-dashboard-chart="distribution">
+            <!-- <i class="fa-solid fa-chart-pie"></i>
+            <p>Sem dados para exibir</p> -->
+            <div id="chart-pie" style="width: 100%; height: 100%; padding: 10px;"></div>
         </div>
     </article>
 </section>

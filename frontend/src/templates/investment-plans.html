@@ -8,63 +8,118 @@
         class="fa-solid fa-plus"></i>Novo plano</button>{% endblock %}
 {% block content %}
 <section class="metrics-grid">
-    <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-bullseye"></i></span><span
-            class="metric-label">Meta total</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card green"><span class="metric-icon"><i class="fa-solid fa-sack-dollar"></i></span><span
-            class="metric-label">Total aportado</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card amber"><span class="metric-icon"><i class="fa-solid fa-calendar-days"></i></span><span
-            class="metric-label">Aporte previsto</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
-    <article class="metric-card"><span class="metric-icon"><i class="fa-solid fa-chart-line"></i></span><span
-            class="metric-label">Evolução</span><strong class="metric-value">—</strong><span
-            class="metric-hint">Aguardando dados</span></article>
+
+    <article class="metric-card">
+        <span class="metric-icon">
+            <i class="fa-solid fa-bullseye"></i>
+        </span>
+        <span class="metric-label">Meta total</span>
+        <strong class="metric-value">—</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+
+    <article class="metric-card green">
+        <span class="metric-icon">
+            <i class="fa-solid fa-sack-dollar"></i>
+        </span>
+        <span class="metric-label">Total aportado</span>
+        <strong class="metric-value">—</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+
+    <article class="metric-card amber">
+        <span class="metric-icon">
+            <i class="fa-solid fa-calendar-days"></i>
+        </span>
+        <span class="metric-label">Aporte previsto</span>
+        <strong class="metric-value">—</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+
+    <article class="metric-card">
+        <span class="metric-icon">
+            <i class="fa-solid fa-chart-line"></i>
+        </span>
+        <span class="metric-label">Evolução</span>
+        <strong class="metric-value">—</strong>
+        <span class="metric-hint">Aguardando dados</span>
+    </article>
+
 </section>
+
 <section class="grid-2-1">
+
     <article class="card">
+
         <div class="card-header">
             <div>
                 <h2 class="card-title">Evolução do plano</h2>
-                <p class="card-sub">O gráfico será preenchido com os aportes recebidos pela API.</p>
+                <!-- <p class="card-sub">O gráfico será preenchido com os aportes recebidos pela API.</p> -->
             </div>
         </div>
-        <div class="chart-placeholder"><i class="fa-solid fa-chart-line"></i>
-            <p>Sem dados para exibir</p>
+
+        <div class="chart-placeholder">
+            <!-- <i class="fa-solid fa-chart-line"></i>
+            <p>Sem dados para exibir</p> -->
+            <div id="chart-column" style="width: 100%; height: 100%; padding: 10px;"></div>
         </div>
+
     </article>
+
     <article class="card">
+
         <div class="card-header">
             <div>
                 <h2 class="card-title">Seus planos</h2>
                 <p class="card-sub">Planos cadastrados</p>
             </div>
         </div>
-        <div class="empty-state"><i class="fa-solid fa-folder-open"></i>
+
+        <div class="empty-state">
+            <i class="fa-solid fa-folder-open"></i>
             <p>Nenhum plano carregado.</p>
         </div>
+
     </article>
+
 </section>
+
 <div class="modal-overlay" id="investment-modal">
+    
     <section class="modal" role="dialog" aria-modal="true" aria-labelledby="investment-title">
-        <header class="modal-header"><strong class="modal-title" id="investment-title">Novo plano de
-                aporte</strong><button type="button" class="icon-button" data-modal-close aria-label="Fechar"><i
-                    class="fa-solid fa-xmark"></i></button></header>
+        <header class="modal-header">
+            <strong class="modal-title" id="investment-title">Novo plano de aporte</strong>
+            <button type="button" class="icon-button" data-modal-close aria-label="Fechar">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </header>
         <form data-form-event="investment-plans:create">
             <div class="form-grid">
-                <div class="field"><label for="plan-name">Nome do plano</label><input id="plan-name" name="name"
-                        required></div>
-                <div class="field"><label for="plan-target">Meta de valor</label><input id="plan-target"
-                        name="target_amount" inputmode="decimal" required></div>
-                <div class="field"><label for="plan-contribution">Aporte recorrente</label><input id="plan-contribution"
-                        name="contribution_amount" inputmode="decimal"></div>
-                <div class="field"><label for="plan-start">Data de início</label><input id="plan-start"
-                        name="start_date" type="date"></div>
-                <div class="field full"><label for="plan-notes">Observações</label><textarea id="plan-notes"
-                        name="notes"></textarea></div>
+                <div class="field">
+                    <label for="plan-name">Nome do plano</label>
+                    <input id="plan-name" name="name" required>
+                </div>
+                <div class="field">
+                    <label for="plan-target">Meta de valor</label>
+                    <input id="plan-target" name="target_amount" inputmode="decimal" required>
+                </div>
+                <div class="field">
+                    <label for="plan-contribution">Aporte recorrente</label>
+                    <input id="plan-contribution" name="contribution_amount" inputmode="decimal">
+                </div>
+                <div class="field">
+                    <label for="plan-start">Data de início</label>
+                    <input id="plan-start" name="start_date" type="date">
+                </div>
+                <div class="field full">
+                    <label for="plan-notes">Observações</label>
+                    <textarea id="plan-notes" name="notes"></textarea>
+                </div>
             </div>
-            <div class="form-actions"><button type="button" class="button" data-modal-close>Cancelar</button><button
-                    class="button primary" type="submit">Salvar plano</button></div>
+            <div class="form-actions">
+                <button type="button" class="button" data-modal-close>Cancelar</button>
+                <button class="button primary" data-modal-close type="submit">Salvar plano</button>
+            </div>
         </form>
     </section>
 </div>
