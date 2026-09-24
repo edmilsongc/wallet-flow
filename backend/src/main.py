@@ -1,6 +1,8 @@
 from flask import Flask
 from routes.auth import auth_bp
 from routes.dataUser import dataUser_bp
+from routes.accountsReceivable import accountsReceivable_bp
+from routes.accountsPayable import accountsPayable_bp
 
 from dotenv import load_dotenv
 from flask_cors import CORS
@@ -21,6 +23,8 @@ CORS(
 
 app.register_blueprint(auth_bp)
 app.register_blueprint(dataUser_bp)
+app.register_blueprint(accountsReceivable_bp)
+app.register_blueprint(accountsPayable_bp)
 
 if __name__ == '__main__':
     app.run()
