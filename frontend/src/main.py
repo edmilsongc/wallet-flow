@@ -1,6 +1,25 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, request
+from dotenv import load_dotenv
+import requests
+import os
+
+load_dotenv()
+
+BACKEND_URL = os.environ["BACKEND_URL"]
 
 app = Flask(__name__)
+
+def private_page(template):
+    cookie = request.headers.get("Cookie")
+    response = requests.get(
+        f"{BACKEND_URL}/api/session",
+        headers={
+            "Cookie": cookie
+        }
+    )
+    if response.status_code != 200:
+        return redirect("/login")
+    return render_template(template)
 
 @app.route("/")
 def index():
@@ -16,35 +35,35 @@ def login():
 
 @app.route("/dashboard")
 def dashboard():
-    return render_template("dashboard.html")
+    return private_page("dashboard.html")
 
 @app.route("/accounts-receivable")
 def accounts_receivable():
-    return render_template("accounts-receivable.html")
+    return private_page("accounts-receivable.html")
 
 @app.route("/accounts-payable")
 def accounts_payable():
-    return render_template("accounts-payable.html")
+    return private_page("accounts-payable.html")
 
 @app.route("/investment-plans")
 def investment_plans():
-    return render_template("investment-plans.html")
+    return private_page("investment-plans.html")
 
 @app.route("/statements")
 def statements():
-    return render_template("statements.html")
+    return private_page("statements.html")
 
 @app.route("/transactions")
 def transactions():
-    return render_template("transactions.html")
+    return private_page("transactions.html")
 
 @app.route("/support")
 def support():
-    return render_template("support.html")
+    return private_page("support.html")
 
 @app.route("/settings")
 def settings():
-    return render_template("settings.html")
+    return private_page("settings.html")
 
 if __name__ == "__main__":
     app.run()

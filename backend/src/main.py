@@ -10,11 +10,13 @@ import os
 
 load_dotenv()
 
-SECRET_KEY = os.getenv('SECRET_KEY')
-FRONTEND_URL = os.getenv('FRONTEND_URL')
+SECRET_KEY = os.environ['SECRET_KEY']
+FRONTEND_URL = os.environ['FRONTEND_URL']
 
 app = Flask(__name__)
+
 app.secret_key = SECRET_KEY
+
 CORS(
     app,
     supports_credentials=True,

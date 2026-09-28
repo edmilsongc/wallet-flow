@@ -65,3 +65,16 @@ def api_login():
         return jsonify({
             'message': 'error'
         })
+
+@auth_bp.route('/session', methods=['GET'])
+def session_status():
+    user_id = session.get('user_id')
+
+    if user_id is None:
+        return jsonify({
+            'authenticated': False
+        }), 401
+    return jsonify({
+        'authenticated': True,
+        'user_id': user_id
+    }), 200
