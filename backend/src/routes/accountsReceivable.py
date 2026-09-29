@@ -1,5 +1,5 @@
 from flask import Blueprint, session, jsonify, request, json
-from database.connection import get_connection
+from src.database.connection import get_connection
 
 accountsReceivable_bp = Blueprint("accountsReceivable", __name__, url_prefix="/data")
 

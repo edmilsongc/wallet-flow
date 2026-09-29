@@ -1,5 +1,5 @@
 from flask import Blueprint, session, jsonify
-from database.connection import get_connection
+from src.database.connection import get_connection
 
 dataUser_bp = Blueprint("dataUser", __name__, url_prefix="/api")
 
